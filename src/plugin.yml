@@ -1,0 +1,32 @@
+name: NeoQuests
+main: me.neoblade298.neoquests.NeoQuests
+author: [Neoblade298]
+depend: [NeoCore, Multiverse-Core, Vault]
+softdepend: [SkillAPI, Citizens, MythicMobs, WorldGuard]
+version: 1.0
+api-version: 1.19
+commands:
+   quest:
+      description: Quest command
+      usage: /quest
+      aliases: q
+   quests:
+      description: Quests command
+      usage: /quests
+      aliases: qs
+   questadmin:
+      description: Questadmin command
+      usage: /questadmin
+      aliases: qa
+   navigation:
+      description: Navigation command
+      usage: /navigation
+      aliases: nav
+   adminnavigation:
+      description: Admin Navigation command
+      usage: /adminnavigation
+      aliases: [anav, anavigation]
+   conversation:
+      description: Conversation command
+      usage: /conversation
+      aliases: [conv]
