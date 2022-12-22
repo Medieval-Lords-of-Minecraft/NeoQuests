@@ -30,6 +30,7 @@ import me.neoblade298.neoquests.listeners.GeneralListener;
 import me.neoblade298.neoquests.listeners.NavigationListener;
 import me.neoblade298.neoquests.listeners.ConversationListener;
 import me.neoblade298.neoquests.listeners.ObjectiveListener;
+import me.neoblade298.neoquests.listeners.ObjectiveListenerTowny;
 import me.neoblade298.neoquests.listeners.QuesterListener;
 import me.neoblade298.neoquests.navigation.NavigationManager;
 import me.neoblade298.neoquests.objectives.ObjectiveManager;
@@ -52,15 +53,17 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 		Bukkit.getServer().getLogger().info("NeoQuests Enabled");
 
 		// Minimized initialization if session host
+		for (int i = 1; i <= 12; i++) {
+			accountTags[i - 1] = NeoCore.createPlayerTags("questaccount_" + i, this, true);
+		}
+		globalTags = NeoCore.createPlayerTags("questaccount_global", this, true);
 		if (NeoCore.getInstanceType() == InstanceType.SESSIONS) {
-			for (int i = 1; i <= 12; i++) {
-				accountTags[i - 1] = NeoCore.createPlayerTags("questaccount_" + i, this, true);
-			}
 			return;
 		}
 
 		getServer().getPluginManager().registerEvents(new ConversationListener(), this);
 		getServer().getPluginManager().registerEvents(new ObjectiveListener(), this);
+		if (NeoCore.getInstanceType() == InstanceType.TOWNY) getServer().getPluginManager().registerEvents(new ObjectiveListenerTowny(), this);
 		getServer().getPluginManager().registerEvents(new GeneralListener(), this);
 		getServer().getPluginManager().registerEvents(new NavigationListener(), this);
 		getServer().getPluginManager().registerEvents(new QuesterListener(), this);
@@ -80,11 +83,6 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 			showWarning("Failed to enable managers on startup", e);
 		}
 		
-		// Playerdata
-		for (int i = 1; i <= 12; i++) {
-			accountTags[i - 1] = NeoCore.createPlayerTags("questaccount_" + i, this, true);
-		}
-		globalTags = NeoCore.createPlayerTags("questaccount_global", this, true);
 		
 		// WorldGuard
 	    SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
