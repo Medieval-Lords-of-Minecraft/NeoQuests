@@ -11,17 +11,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.sucy.skill.api.event.PlayerClassChangeEvent;
-import com.sucy.skill.api.event.PlayerLevelUpEvent;
-import com.sucy.skill.api.event.PlayerSkillUnlockEvent;
-import com.sucy.skill.api.event.PlayerSkillUpgradeEvent;
-
 import io.lumine.mythic.bukkit.events.MythicMobDeathEvent;
-import me.Neoblade298.NeoProfessions.Events.OpenProfessionInvEvent;
-import me.Neoblade298.NeoProfessions.Events.ProfessionCraftSuccessEvent;
-import me.Neoblade298.NeoProfessions.Events.ProfessionPlantSeedEvent;
-import me.Neoblade298.NeoProfessions.Events.ProfessionSlotSuccessEvent;
-import me.Neoblade298.NeoProfessions.Events.ReceiveStoredItemEvent;
 import me.neoblade298.neocore.events.PlayerTagChangedEvent;
 import me.neoblade298.neoquests.events.ConversationEvent;
 import me.neoblade298.neoquests.objectives.*;
@@ -30,7 +20,7 @@ import net.citizensnpcs.api.event.NPCRightClickEvent;
 
 public class ObjectiveListener implements Listener {
 	
-	public static HashMap<Player, HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>>> objs = new HashMap<Player, HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>>>();
+	protected static HashMap<Player, HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>>> objs = new HashMap<Player, HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>>>();
 	
 	public static void startListening(ObjectiveInstance o) {
 		HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>> pmap = getPlayerInstances(o.getPlayer());
@@ -51,7 +41,7 @@ public class ObjectiveListener implements Listener {
 		getPlayerInstances(o.getPlayer()).remove(o.getObjective().getType());
 	}
 
-	private static HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>> getPlayerInstances(Player p) {
+	protected static HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>> getPlayerInstances(Player p) {
 		HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>> pmap = objs.getOrDefault(p, new HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>>());
 		objs.putIfAbsent(p, pmap);
 		return pmap;
@@ -71,18 +61,6 @@ public class ObjectiveListener implements Listener {
 				else {
 					((DeliverItemsObjective) o.getObjective()).checkEvent(e, o);
 				}
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onReceiveStoredItem(ReceiveStoredItemEvent e) {
-		Player p = e.getPlayer();
-
-		ArrayList<ObjectiveInstance> insts = getPlayerInstances(p).get(ObjectiveEvent.RECEIVE_STORED_ITEM);
-		if (insts != null) {
-			for (ObjectiveInstance o : insts) {
-				((GetStoredItemObjective) o.getObjective()).checkEvent(e, o);
 			}
 		}
 	}
@@ -146,95 +124,6 @@ public class ObjectiveListener implements Listener {
 		if (insts != null) {
 			for (ObjectiveInstance o : insts) {
 				if (((SayObjective) o.getObjective()).checkEvent(e, o)) e.setCancelled(true);
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onLevelUp(PlayerLevelUpEvent e) {
-		Player p = e.getPlayerData().getPlayer();
-
-		ArrayList<ObjectiveInstance> insts = getPlayerInstances(p).get(ObjectiveEvent.LEVEL_UP);
-		if (insts != null) {
-			for (ObjectiveInstance o : insts) {
-				((ReachLevelObjective) o.getObjective()).checkEvent(e, o);
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onChangeClass(PlayerClassChangeEvent e) {
-		Player p = e.getPlayerData().getPlayer();
-		ArrayList<ObjectiveInstance> insts = getPlayerInstances(p).get(ObjectiveEvent.CHANGE_CLASS);
-		if (insts != null) {
-			for (ObjectiveInstance o : insts) {
-				((ReachTierObjective) o.getObjective()).checkEvent(e, o);
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onUnlockSkill(PlayerSkillUnlockEvent e) {
-		Player p = e.getPlayerData().getPlayer();
-		ArrayList<ObjectiveInstance> insts = getPlayerInstances(p).get(ObjectiveEvent.GET_SKILL);
-		if (insts != null) {
-			for (ObjectiveInstance o : insts) {
-				((GetSkillObjective) o.getObjective()).checkEvent(e, o);
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onUpgradeSkill(PlayerSkillUpgradeEvent e) {
-		Player p = e.getPlayerData().getPlayer();
-		ArrayList<ObjectiveInstance> insts = getPlayerInstances(p).get(ObjectiveEvent.GET_SKILL);
-		if (insts != null) {
-			for (ObjectiveInstance o : insts) {
-				((GetSkillObjective) o.getObjective()).checkEvent(e, o);
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onProfessionInvOpen(OpenProfessionInvEvent e) {
-		Player p = e.getPlayer();
-		ArrayList<ObjectiveInstance> insts = getPlayerInstances(p).get(ObjectiveEvent.OPEN_PROFESSION_INV);
-		if (insts != null) {
-			for (ObjectiveInstance o : insts) {
-				((OpenProfessionInventoryObjective) o.getObjective()).checkEvent(e, o);
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onPlantSeed(ProfessionPlantSeedEvent e) {
-		Player p = e.getPlayer();
-		ArrayList<ObjectiveInstance> insts = getPlayerInstances(p).get(ObjectiveEvent.PLANT_SEED);
-		if (insts != null) {
-			for (ObjectiveInstance o : insts) {
-				((PlantSeedObjective) o.getObjective()).checkEvent(e, o);
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onProfessionCraft(ProfessionCraftSuccessEvent e) {
-		Player p = e.getPlayer();
-		ArrayList<ObjectiveInstance> insts = getPlayerInstances(p).get(ObjectiveEvent.PROFESSION_CRAFT);
-		if (insts != null) {
-			for (ObjectiveInstance o : insts) {
-				((ProfessionCraftObjective) o.getObjective()).checkEvent(e, o);
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onSlotAugment(ProfessionSlotSuccessEvent e) {
-		Player p = e.getPlayer();
-		ArrayList<ObjectiveInstance> insts = getPlayerInstances(p).get(ObjectiveEvent.SLOT_AUGMENT);
-		if (insts != null) {
-			for (ObjectiveInstance o : insts) {
-				((SlotAugmentObjective) o.getObjective()).checkEvent(e, o);
 			}
 		}
 	}

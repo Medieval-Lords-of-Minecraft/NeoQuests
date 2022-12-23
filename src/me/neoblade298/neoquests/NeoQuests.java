@@ -30,6 +30,7 @@ import me.neoblade298.neoquests.listeners.GeneralListener;
 import me.neoblade298.neoquests.listeners.NavigationListener;
 import me.neoblade298.neoquests.listeners.ConversationListener;
 import me.neoblade298.neoquests.listeners.ObjectiveListener;
+import me.neoblade298.neoquests.listeners.ObjectiveListenerSkillAPI;
 import me.neoblade298.neoquests.listeners.ObjectiveListenerTowny;
 import me.neoblade298.neoquests.listeners.QuesterListener;
 import me.neoblade298.neoquests.navigation.NavigationManager;
@@ -64,6 +65,7 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 		getServer().getPluginManager().registerEvents(new ConversationListener(), this);
 		getServer().getPluginManager().registerEvents(new ObjectiveListener(), this);
 		if (NeoCore.getInstanceType() == InstanceType.TOWNY) getServer().getPluginManager().registerEvents(new ObjectiveListenerTowny(), this);
+		else getServer().getPluginManager().registerEvents(new ObjectiveListenerSkillAPI(), this);
 		getServer().getPluginManager().registerEvents(new GeneralListener(), this);
 		getServer().getPluginManager().registerEvents(new NavigationListener(), this);
 		getServer().getPluginManager().registerEvents(new QuesterListener(), this);
