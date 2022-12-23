@@ -48,9 +48,11 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 	private static PlayerTags[] accountTags = new PlayerTags[12];
 	private static PlayerTags globalTags;
 	public static StringFlag REQ_TAG_FLAG;
+	public static boolean isTowny = false;
 
 	public void onEnable() {
 		inst = this;
+		isTowny = NeoCore.getInstanceType() == InstanceType.TOWNY;
 		Bukkit.getServer().getLogger().info("NeoQuests Enabled");
 
 		// Minimized initialization if session host
@@ -64,11 +66,15 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 
 		getServer().getPluginManager().registerEvents(new ConversationListener(), this);
 		getServer().getPluginManager().registerEvents(new ObjectiveListener(), this);
-		if (NeoCore.getInstanceType() == InstanceType.TOWNY) getServer().getPluginManager().registerEvents(new ObjectiveListenerTowny(), this);
-		else getServer().getPluginManager().registerEvents(new ObjectiveListenerSkillAPI(), this);
+		if (NeoCore.getInstanceType() == InstanceType.TOWNY) {
+			getServer().getPluginManager().registerEvents(new ObjectiveListenerTowny(), this);
+		}
+		else {
+			getServer().getPluginManager().registerEvents(new ObjectiveListenerSkillAPI(), this);
+			getServer().getPluginManager().registerEvents(new QuesterListener(), this);
+		}
 		getServer().getPluginManager().registerEvents(new GeneralListener(), this);
 		getServer().getPluginManager().registerEvents(new NavigationListener(), this);
-		getServer().getPluginManager().registerEvents(new QuesterListener(), this);
 
 		initCommands();
 		
@@ -223,7 +229,7 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 	}
 	
 	public static PlayerTags getPlayerTags(Player p) {
-		int account = SkillAPI.getPlayerAccountData(p).getActiveId();
+		int account = isTowny ? 1 : SkillAPI.getPlayerAccountData(p).getActiveId();
 		return getPlayerTags(account);
 	}
 	

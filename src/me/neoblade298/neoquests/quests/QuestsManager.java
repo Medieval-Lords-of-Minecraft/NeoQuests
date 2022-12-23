@@ -100,8 +100,12 @@ public class QuestsManager implements IOComponent, Manager {
 	@Override
 	public void loadPlayer(Player p, Statement stmt) {
 		HashMap<Integer, Quester> accts = new HashMap<Integer, Quester>();
-		int active = SkillAPI.getPlayerAccountData(p).getActiveId();
-		accts.put(SkillAPI.getPlayerAccountData(p).getActiveId(), new Quester(p, active));
+		int active = 1;
+		accts.put(active, new Quester(p, active));
+		if (!NeoQuests.isTowny) {
+			active = SkillAPI.getPlayerAccountData(p).getActiveId();
+			accts.put(active, new Quester(p, active));
+		}
 		UUID uuid = p.getUniqueId();
 		questers.put(uuid, accts);
 		try {
@@ -212,7 +216,7 @@ public class QuestsManager implements IOComponent, Manager {
 				}
 				
 				// Save account info
-				if (quester.getLocation() != null) {
+				if (quester.getLocation() != null && quester.getLocation().getWorld() != null) {
 					Location loc = quester.getLocation();
 					double x = Math.round(loc.getX() * 100) / 100;
 					double y = Math.round(loc.getY() * 100) / 100;
@@ -233,7 +237,7 @@ public class QuestsManager implements IOComponent, Manager {
 	public void savePlayer(Player p, Statement insert, Statement delete) {
 		UUID uuid = p.getUniqueId();
 		// Save player location if they're in quest world
-		if (SkillAPI.getSettings().isWorldEnabled(p.getWorld())) {
+		if (!NeoQuests.isTowny && SkillAPI.getSettings().isWorldEnabled(p.getWorld())) {
 			initializeOrGetQuester(p).setLocation(p.getLocation());
 		}
 		autosavePlayer(p, insert, delete);
@@ -241,6 +245,7 @@ public class QuestsManager implements IOComponent, Manager {
 	}
 	
 	public static Quester initializeOrGetQuester(Player p) {
+		if (NeoQuests.isTowny) return initializeOrGetQuester(p, 1);
 		return initializeOrGetQuester(p, SkillAPI.getPlayerAccountData(p).getActiveId());
 	}
 	
@@ -308,6 +313,7 @@ public class QuestsManager implements IOComponent, Manager {
 	}
 	
 	public static Quester getQuester(Player p) {
+		if (NeoQuests.isTowny) return getQuester(p, 1);
 		return getQuester(p, SkillAPI.getPlayerAccountData(p).getActiveId());
 	}
 	

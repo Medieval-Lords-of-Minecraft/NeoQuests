@@ -16,6 +16,7 @@ import me.neoblade298.neocore.commands.Subcommand;
 import me.neoblade298.neocore.commands.SubcommandRunner;
 import me.neoblade298.neocore.util.PaginatedList;
 import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.conditions.ConditionManager;
 import me.neoblade298.neoquests.quests.QuestRecommendation;
 import me.neoblade298.neoquests.quests.Quester;
@@ -78,7 +79,7 @@ public class CmdQuestsRecommended implements Subcommand {
 		}
 		
 		int level = 1;
-		if (SkillAPI.getPlayerData(p) != null && SkillAPI.getPlayerData(p).getMainClass() != null) {
+		if (!NeoQuests.isTowny && SkillAPI.getPlayerData(p) != null && SkillAPI.getPlayerData(p).getMainClass() != null) {
 			level = SkillAPI.getPlayerData(p).getMainClass().getLevel();
 		}
 

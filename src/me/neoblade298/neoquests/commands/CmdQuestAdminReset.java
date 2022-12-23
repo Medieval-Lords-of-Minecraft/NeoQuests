@@ -70,7 +70,7 @@ public class CmdQuestAdminReset implements Subcommand {
 		try {
 			// No args, reset only the account you're on
 			if (args.length == offset) {
-				int account = SkillAPI.getPlayerAccountData(p).getActiveId();
+				int account = NeoQuests.isTowny ? 1 : SkillAPI.getPlayerAccountData(p).getActiveId();
 				stmt.execute("DELETE FROM quests_completed WHERE uuid = '" + uuid + "' AND account = " + account + ";");
 				stmt.execute("DELETE FROM quests_accounts WHERE uuid = '" + uuid + "' AND account = " +  account + ";");
 				stmt.execute("DELETE FROM quests_questlines WHERE uuid = '" + uuid + "' AND account = " + account + ";");
