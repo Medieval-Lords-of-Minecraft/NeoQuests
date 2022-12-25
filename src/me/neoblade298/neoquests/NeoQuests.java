@@ -85,7 +85,7 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 			new ObjectiveManager();
 			new ConditionManager();
 			managers.add(new ConversationManager());
-			managers.add((Manager) NeoCore.registerIOComponent(this, new QuestsManager()));
+			managers.add((Manager) NeoCore.registerIOComponent(this, new QuestsManager(), "QuestsManager"));
 			managers.add(new NavigationManager());
 		} catch (Exception e) {
 			showWarning("Failed to enable managers on startup", e);

@@ -65,7 +65,7 @@ public class CmdQuestAdminReset implements Subcommand {
 			Util.msg(s, "&cSomething's wrong with the command arguments!");
 		}
 		
-		Statement stmt = NeoCore.getStatement();
+		Statement stmt = NeoCore.getStatement("QuestsManager");
 		UUID uuid = p.getUniqueId();
 		try {
 			// No args, reset only the account you're on
