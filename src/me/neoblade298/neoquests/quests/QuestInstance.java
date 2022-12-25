@@ -89,6 +89,7 @@ public class QuestInstance {
 	
 	public void setStage(int stage) {
 		quest.getStages().get(stage).runActions(q.getPlayer());
+		this.stage = stage;
 		setupInstances(true);
 		displayObjectives(q.getPlayer());
 	}

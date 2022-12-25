@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import de.tr7zw.nbtapi.NBTItem;
+import io.lumine.mythic.bukkit.MythicBukkit;
 import me.neoblade298.neocore.io.LineConfig;
 import me.neoblade298.neoquests.objectives.Objective;
 import me.neoblade298.neoquests.objectives.ObjectiveEvent;
@@ -16,7 +17,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class DeliverItemsObjective extends Objective {
 	private int npcid, modeldata, loreNum;
-	private String npcname, mythicitem, nbtstring, lorestring;
+	private String npcname, mythicitem, nbtstring, lorestring, itemDisplay;
 	private Material material;
 	
 	public DeliverItemsObjective() {
@@ -34,6 +35,13 @@ public class DeliverItemsObjective extends Objective {
 		nbtstring = cfg.getString("nbtstring", null);
 		loreNum = cfg.getInt("lore", -1);
 		lorestring = cfg.getLine();
+		
+		if (mythicitem != null) {
+			itemDisplay = MythicBukkit.inst().getItemManager().getItem(mythicitem).get().getDisplayName();
+		}
+		else {
+			itemDisplay = matString;
+		}
 	}
 
 	@Override
@@ -78,7 +86,7 @@ public class DeliverItemsObjective extends Objective {
 		if (npcname == null) {
 			npcname = CitizensAPI.getNPCRegistry().getById(npcid).getFullName();
 		}
-		return "Deliver items to NPC " + npcname;
+		return "Deliver " + itemDisplay + " to NPC " + npcname;
 	}
 	
 	private boolean checkItemStack(ItemStack item) {
