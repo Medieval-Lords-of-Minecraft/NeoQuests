@@ -67,7 +67,7 @@ public class QuestInstance {
 	}
 	
 	public void completeObjectiveSet(ObjectiveSetInstance set) {
-		set.finalizeObjectives();
+		set.finalizeObjectives(); // Basically just for getStoredItem to remove it
 		int ticks = set.getSet().getActions().run(q.getPlayer());
 		if (set.getNext() == -1 || set.getNext() == -2) {
 			endQuest(set, true, stage, ticks);

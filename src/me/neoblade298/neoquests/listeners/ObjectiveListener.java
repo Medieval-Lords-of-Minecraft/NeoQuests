@@ -41,7 +41,7 @@ public class ObjectiveListener implements Listener {
 		getPlayerInstances(o.getPlayer()).remove(o.getObjective().getType());
 	}
 
-	protected static HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>> getPlayerInstances(Player p) {
+	public static HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>> getPlayerInstances(Player p) {
 		HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>> pmap = objs.getOrDefault(p, new HashMap<ObjectiveEvent, ArrayList<ObjectiveInstance>>());
 		objs.putIfAbsent(p, pmap);
 		return pmap;
