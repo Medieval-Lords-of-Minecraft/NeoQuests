@@ -139,7 +139,7 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 		commands.put(cmd, quests);
 
 		cmd = "questadmin";
-		CommandManager questadmin = new CommandManager(cmd, ChatColor.DARK_RED, this);
+		CommandManager questadmin = new CommandManager(cmd, "neoquests.admin", ChatColor.DARK_RED, this);
 		questadmin.registerCommandList("");
 		questadmin.register(new CmdQuestAdminReload(),
 				new CmdQuestAdminStart(),
