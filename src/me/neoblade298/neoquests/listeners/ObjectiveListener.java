@@ -53,13 +53,12 @@ public class ObjectiveListener implements Listener {
 
 		ArrayList<ObjectiveInstance> insts = getPlayerInstances(p).get(ObjectiveEvent.INTERACT_NPC);
 		if (insts != null) {
-			e.setCancelled(true);
 			for (ObjectiveInstance o : insts) {
 				if (o.getObjective() instanceof InteractNpcObjective) {
-					((InteractNpcObjective) o.getObjective()).checkEvent(e, o);
+					e.setCancelled(((InteractNpcObjective) o.getObjective()).checkEvent(e, o));
 				}
 				else {
-					((DeliverItemsObjective) o.getObjective()).checkEvent(e, o);
+					e.setCancelled(((DeliverItemsObjective) o.getObjective()).checkEvent(e, o));
 				}
 			}
 		}
