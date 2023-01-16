@@ -55,10 +55,10 @@ public class ObjectiveListener implements Listener {
 		if (insts != null) {
 			for (ObjectiveInstance o : insts) {
 				if (o.getObjective() instanceof InteractNpcObjective) {
-					e.setCancelled(((InteractNpcObjective) o.getObjective()).checkEvent(e, o));
+					((InteractNpcObjective) o.getObjective()).checkEvent(e, o);
 				}
 				else {
-					e.setCancelled(((DeliverItemsObjective) o.getObjective()).checkEvent(e, o));
+					((DeliverItemsObjective) o.getObjective()).checkEvent(e, o);
 				}
 			}
 		}
