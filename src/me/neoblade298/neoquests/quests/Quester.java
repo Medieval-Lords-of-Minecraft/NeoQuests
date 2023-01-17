@@ -20,6 +20,7 @@ import me.neoblade298.neoquests.commands.CmdQuestsRecommended;
 import me.neoblade298.neoquests.conditions.Condition;
 import me.neoblade298.neoquests.conditions.ConditionManager;
 import me.neoblade298.neoquests.conversations.ConversationManager;
+import me.neoblade298.neoquests.events.QuestCompleteEvent;
 import me.neoblade298.neoquests.listeners.ObjectiveListener;
 import me.neoblade298.neoquests.objectives.ObjectiveSetInstance;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -65,6 +66,8 @@ public class Quester {
 				}.runTaskLater(NeoQuests.inst(), 60L);
 			}
 		}
+		
+		Bukkit.getPluginManager().callEvent(new QuestCompleteEvent(p, success));
 	}
 	
 	public void cancelQuest(String key) {
