@@ -11,12 +11,12 @@ import org.bukkit.entity.Player;
 import com.sucy.skill.SkillAPI;
 
 import io.lumine.mythic.bukkit.utils.lib.lang3.StringUtils;
-import me.neoblade298.neocore.NeoCore;
-import me.neoblade298.neocore.commands.CommandArgument;
-import me.neoblade298.neocore.commands.CommandArguments;
-import me.neoblade298.neocore.commands.Subcommand;
-import me.neoblade298.neocore.commands.SubcommandRunner;
-import me.neoblade298.neocore.player.PlayerTags;
+import me.neoblade298.neocore.bukkit.NeoCore;
+import me.neoblade298.neocore.bukkit.commands.CommandArgument;
+import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.bukkit.commands.Subcommand;
+import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.player.PlayerTags;
 import me.neoblade298.neocore.util.Util;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.conversations.ConversationManager;

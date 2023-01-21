@@ -13,7 +13,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.exceptions.NeoIOException;
+import me.neoblade298.neocore.shared.exceptions.NeoIOException;
 import me.neoblade298.neocore.util.Util;
 import me.neoblade298.neoquests.ParticleUtils;
 

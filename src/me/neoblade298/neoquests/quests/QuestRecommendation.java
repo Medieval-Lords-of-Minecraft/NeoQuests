@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 
 import com.sucy.skill.SkillAPI;
 
-import me.neoblade298.neocore.exceptions.NeoIOException;
-import me.neoblade298.neocore.io.LineConfig;
+import me.neoblade298.neocore.shared.exceptions.NeoIOException;
+import me.neoblade298.neocore.shared.io.LineConfig;
 
 public class QuestRecommendation {
 	private int min, max;

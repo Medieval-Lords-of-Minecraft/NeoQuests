@@ -6,7 +6,7 @@ import com.sucy.skill.SkillAPI;
 import com.sucy.skill.api.player.PlayerClass;
 import com.sucy.skill.api.player.PlayerData;
 
-import me.neoblade298.neocore.io.LineConfig;
+import me.neoblade298.neocore.shared.io.LineConfig;
 import me.neoblade298.neoquests.conditions.Condition;
 
 public class ClassLevelCondition extends Condition {

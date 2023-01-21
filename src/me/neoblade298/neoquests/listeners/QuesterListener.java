@@ -9,8 +9,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import com.sucy.skill.SkillAPI;
 import com.sucy.skill.api.event.PlayerAccountChangeEvent;
 
-import me.neoblade298.neocore.bar.BarAPI;
-import me.neoblade298.neocore.bar.CoreBar;
+import me.neoblade298.neocore.bukkit.bar.BarAPI;
+import me.neoblade298.neocore.bukkit.bar.CoreBar;
 import me.neoblade298.neoquests.quests.Quester;
 import me.neoblade298.neoquests.quests.QuestsManager;
 

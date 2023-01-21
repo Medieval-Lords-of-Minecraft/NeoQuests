@@ -2,8 +2,8 @@ package me.neoblade298.neoquests.objectives;
 
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.bar.BarAPI;
-import me.neoblade298.neocore.bar.CoreBar;
+import me.neoblade298.neocore.bukkit.bar.BarAPI;
+import me.neoblade298.neocore.bukkit.bar.CoreBar;
 import me.neoblade298.neoquests.listeners.ObjectiveListener;
 
 public class ObjectiveInstance {

@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
-import me.neoblade298.neocore.exceptions.NeoIOException;
+import me.neoblade298.neocore.shared.exceptions.NeoIOException;
 
 public class EndPoint {
 	private Point point;

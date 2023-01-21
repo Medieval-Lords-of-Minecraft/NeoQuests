@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import me.neoblade298.neocore.exceptions.NeoIOException;
-import me.neoblade298.neocore.io.LineConfig;
-import me.neoblade298.neocore.io.LineConfigManager;
+import me.neoblade298.neocore.shared.exceptions.NeoIOException;
+import me.neoblade298.neocore.shared.io.LineConfig;
+import me.neoblade298.neocore.shared.io.LineConfigManager;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.actions.builtin.*;
 

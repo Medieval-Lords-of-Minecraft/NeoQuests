@@ -2,7 +2,7 @@ package me.neoblade298.neoquests.conditions.builtin;
 
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.io.LineConfig;
+import me.neoblade298.neocore.shared.io.LineConfig;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.conditions.Condition;
 

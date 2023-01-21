@@ -1,8 +1,8 @@
 package me.neoblade298.neoquests.objectives.builtin;
 
-import me.neoblade298.neocore.events.PlayerTagChangedEvent;
-import me.neoblade298.neocore.events.ValueChangeType;
-import me.neoblade298.neocore.io.LineConfig;
+import me.neoblade298.neocore.bukkit.events.PlayerTagChangedEvent;
+import me.neoblade298.neocore.bukkit.events.ValueChangeType;
+import me.neoblade298.neocore.shared.io.LineConfig;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.objectives.Objective;
 import me.neoblade298.neoquests.objectives.ObjectiveEvent;

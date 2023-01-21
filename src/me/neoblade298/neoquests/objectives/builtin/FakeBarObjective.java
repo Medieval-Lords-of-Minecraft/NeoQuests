@@ -1,6 +1,6 @@
 package me.neoblade298.neoquests.objectives.builtin;
 
-import me.neoblade298.neocore.io.LineConfig;
+import me.neoblade298.neocore.shared.io.LineConfig;
 import me.neoblade298.neoquests.objectives.Objective;
 
 public class FakeBarObjective extends Objective {

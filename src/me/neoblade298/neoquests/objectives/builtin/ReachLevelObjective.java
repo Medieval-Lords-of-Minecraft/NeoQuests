@@ -4,7 +4,7 @@ import com.sucy.skill.SkillAPI;
 import com.sucy.skill.api.event.PlayerLevelUpEvent;
 import com.sucy.skill.api.player.PlayerData;
 
-import me.neoblade298.neocore.io.LineConfig;
+import me.neoblade298.neocore.shared.io.LineConfig;
 import me.neoblade298.neoquests.objectives.Objective;
 import me.neoblade298.neoquests.objectives.ObjectiveEvent;
 import me.neoblade298.neoquests.objectives.ObjectiveInstance;

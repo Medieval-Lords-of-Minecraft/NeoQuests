@@ -8,10 +8,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import io.lumine.mythic.bukkit.utils.lib.lang3.StringUtils;
-import me.neoblade298.neocore.commands.CommandArgument;
-import me.neoblade298.neocore.commands.CommandArguments;
-import me.neoblade298.neocore.commands.Subcommand;
-import me.neoblade298.neocore.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.commands.CommandArgument;
+import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.bukkit.commands.Subcommand;
+import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
 import me.neoblade298.neocore.util.PaginatedList;
 import me.neoblade298.neocore.util.Util;
 import me.neoblade298.neoquests.NeoQuests;

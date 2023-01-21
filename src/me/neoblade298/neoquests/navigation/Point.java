@@ -9,8 +9,8 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.io.LineConfig;
-import me.neoblade298.neocore.io.LineConfigParser;
+import me.neoblade298.neocore.shared.io.LineConfig;
+import me.neoblade298.neocore.shared.io.LineConfigParser;
 
 public class Point implements LineConfigParser<Point>, Comparable<Point>, PathwayObject {
 	private LineConfig cfg;

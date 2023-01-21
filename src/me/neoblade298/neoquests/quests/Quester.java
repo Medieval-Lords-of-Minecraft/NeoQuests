@@ -12,8 +12,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.neoblade298.neocore.bar.BarAPI;
-import me.neoblade298.neocore.bar.CoreBar;
+import me.neoblade298.neocore.bukkit.bar.BarAPI;
+import me.neoblade298.neocore.bukkit.bar.CoreBar;
 import me.neoblade298.neocore.util.Util;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.commands.CmdQuestsRecommended;

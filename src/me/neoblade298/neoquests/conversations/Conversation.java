@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-import me.neoblade298.neocore.exceptions.NeoIOException;
+import me.neoblade298.neocore.shared.exceptions.NeoIOException;
 import me.neoblade298.neoquests.actions.ActionSequence;
 import me.neoblade298.neoquests.conditions.Condition;
 import me.neoblade298.neoquests.conditions.ConditionManager;

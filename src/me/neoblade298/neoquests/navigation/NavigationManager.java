@@ -16,12 +16,12 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import me.neoblade298.neocore.NeoCore;
-import me.neoblade298.neocore.exceptions.NeoIOException;
-import me.neoblade298.neocore.interfaces.Manager;
-import me.neoblade298.neocore.io.FileLoader;
-import me.neoblade298.neocore.io.LineConfig;
-import me.neoblade298.neocore.io.LineConfigManager;
+import me.neoblade298.neocore.bukkit.NeoCore;
+import me.neoblade298.neocore.shared.exceptions.NeoIOException;
+import me.neoblade298.neocore.bukkit.Manager;
+import me.neoblade298.neocore.shared.io.FileLoader;
+import me.neoblade298.neocore.shared.io.LineConfig;
+import me.neoblade298.neocore.shared.io.LineConfigManager;
 import me.neoblade298.neocore.util.Util;
 import me.neoblade298.neoquests.NeoQuests;
 

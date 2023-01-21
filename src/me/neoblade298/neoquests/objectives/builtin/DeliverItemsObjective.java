@@ -7,7 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import de.tr7zw.nbtapi.NBTItem;
 import io.lumine.mythic.bukkit.MythicBukkit;
-import me.neoblade298.neocore.io.LineConfig;
+import me.neoblade298.neocore.shared.io.LineConfig;
 import me.neoblade298.neoquests.objectives.Objective;
 import me.neoblade298.neoquests.objectives.ObjectiveEvent;
 import me.neoblade298.neoquests.objectives.ObjectiveInstance;

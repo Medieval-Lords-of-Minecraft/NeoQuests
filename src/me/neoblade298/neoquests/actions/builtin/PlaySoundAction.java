@@ -5,7 +5,7 @@ import java.util.HashMap;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.io.LineConfig;
+import me.neoblade298.neocore.shared.io.LineConfig;
 import me.neoblade298.neoquests.actions.Action;
 import me.neoblade298.neoquests.actions.DialogueAction;
 

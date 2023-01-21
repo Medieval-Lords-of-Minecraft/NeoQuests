@@ -3,8 +3,8 @@ package me.neoblade298.neoquests.objectives;
 import java.util.ArrayList;
 import org.bukkit.configuration.ConfigurationSection;
 
-import me.neoblade298.neocore.exceptions.NeoIOException;
-import me.neoblade298.neocore.io.LineConfig;
+import me.neoblade298.neocore.shared.exceptions.NeoIOException;
+import me.neoblade298.neocore.shared.io.LineConfig;
 import me.neoblade298.neoquests.actions.ActionManager;
 import me.neoblade298.neoquests.actions.ActionSequence;
 import me.neoblade298.neoquests.actions.RewardAction;

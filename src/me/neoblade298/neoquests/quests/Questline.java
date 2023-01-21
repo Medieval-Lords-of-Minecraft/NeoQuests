@@ -8,7 +8,7 @@ import java.util.List;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.exceptions.NeoIOException;
+import me.neoblade298.neocore.shared.exceptions.NeoIOException;
 import me.neoblade298.neoquests.conditions.ConditionManager;
 
 public class Questline implements Comparator<Questline> {

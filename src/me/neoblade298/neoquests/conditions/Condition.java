@@ -2,8 +2,8 @@ package me.neoblade298.neoquests.conditions;
 
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.io.LineConfig;
-import me.neoblade298.neocore.io.LineConfigParser;
+import me.neoblade298.neocore.shared.io.LineConfig;
+import me.neoblade298.neocore.shared.io.LineConfigParser;
 
 public abstract class Condition implements LineConfigParser<Condition> {
 	protected ConditionResult result;

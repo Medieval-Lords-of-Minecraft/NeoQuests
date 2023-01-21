@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import me.Neoblade298.NeoProfessions.Managers.ProfessionManager;
 import me.Neoblade298.NeoProfessions.PlayerProfessions.ProfessionType;
-import me.neoblade298.neocore.io.LineConfig;
+import me.neoblade298.neocore.shared.io.LineConfig;
 import me.neoblade298.neoquests.actions.Action;
 import me.neoblade298.neoquests.actions.DialogueAction;
 import me.neoblade298.neoquests.actions.RewardAction;

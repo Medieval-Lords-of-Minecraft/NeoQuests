@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import io.lumine.mythic.bukkit.events.MythicMobDeathEvent;
-import me.neoblade298.neocore.events.PlayerTagChangedEvent;
+import me.neoblade298.neocore.bukkit.events.PlayerTagChangedEvent;
 import me.neoblade298.neoquests.events.ConversationEvent;
 import me.neoblade298.neoquests.objectives.*;
 import me.neoblade298.neoquests.objectives.builtin.*;
