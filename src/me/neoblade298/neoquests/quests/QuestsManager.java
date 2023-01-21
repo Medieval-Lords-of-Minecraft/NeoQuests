@@ -19,7 +19,7 @@ import com.sucy.skill.SkillAPI;
 import me.neoblade298.neocore.bukkit.NeoCore;
 import me.neoblade298.neocore.shared.exceptions.NeoIOException;
 import me.neoblade298.neocore.bukkit.Manager;
-import me.neoblade298.neocore.shared.io.FileLoader;
+import me.neoblade298.neocore.bukkit.io.FileLoader;
 import me.neoblade298.neocore.bukkit.io.IOComponent;
 import me.neoblade298.neocore.shared.io.LineConfig;
 import me.neoblade298.neoquests.NeoQuests;
