@@ -11,7 +11,7 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neoquests.quests.CompletedQuest;
 import me.neoblade298.neoquests.quests.Quest;
 import me.neoblade298.neoquests.quests.Quester;
@@ -68,7 +68,7 @@ public class CmdQuestAdminComplete implements Subcommand {
 		Quest q = QuestsManager.getQuest(args[0]);
 		int lastStage = q.getStages().size() - 1;
 		quester.addCompletedQuest(new CompletedQuest(QuestsManager.getQuest(args[0]), stage == -1 ? lastStage : stage, success));
-		Util.msg(s, "&7Successfully added quest &6" + q.getDisplay() + " &7to player &e" + p.getName());
+		BukkitUtil.msg(s, "&7Successfully added quest &6" + q.getDisplay() + " &7to player &e" + p.getName());
 	}
 
 	@Override

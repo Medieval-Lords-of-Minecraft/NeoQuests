@@ -10,7 +10,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.util.SharedUtil;
 import me.neoblade298.neoquests.navigation.EndPoint;
 import me.neoblade298.neoquests.navigation.NavigationManager;
 import me.neoblade298.neoquests.navigation.PathwayEditor;
@@ -67,13 +68,13 @@ public class NavigationListener implements Listener {
 		EndPoint ep = editor.getEditingEndpoint();
 		if (ep.getKey() == null) {
 			ep.setKey(e.getMessage().split(" ")[0]);
-			Util.msg(p, "Type a display name for the endpoint!");
+			BukkitUtil.msg(p, "Type a display name for the endpoint!");
 			e.setCancelled(true);
 		}
 		else if (ep.getDisplay() == null) {
-			ep.setDisplay(Util.translateColors(e.getMessage()));
+			ep.setDisplay(SharedUtil.translateColors(e.getMessage()));
 			NavigationManager.addEndpoint(ep, editor.getEditingPoint(), true);
-			Util.msg(p, "Endpoint &6" + e.getMessage() + " &7successfully created!");
+			BukkitUtil.msg(p, "Endpoint &6" + e.getMessage() + " &7successfully created!");
 			editor.stopEditingEndpoint();
 			e.setCancelled(true);
 		}
@@ -83,10 +84,10 @@ public class NavigationListener implements Listener {
 		Point point = NavigationManager.getOrCreatePoint(loc);
 		if (point != null) {
 			PointType type = point.toggleType();
-			Util.msg(p, "Successfully toggled point to be type &6" + type + "&7!");
+			BukkitUtil.msg(p, "Successfully toggled point to be type &6" + type + "&7!");
 		}
 		else {
-			Util.msg(p, "Successfully created point!");
+			BukkitUtil.msg(p, "Successfully created point!");
 		}
 	}
 	
@@ -112,21 +113,21 @@ public class NavigationListener implements Listener {
 				EndPoint ep = point.getEndpoint();
 				// Only able to remove endpoints if existing path is only connector
 				if (ep.getStartPoints().size() != 0 || ep.getDestinations().size() != 0) {
-					Util.msg(p, "&cCannot remove §6" + ep.getKey() + " §cas it is used in paths:");
+					BukkitUtil.msg(p, "&cCannot remove §6" + ep.getKey() + " §cas it is used in paths:");
 					for (EndPoint start : ep.getStartPoints().keySet()) {
-						Util.msg(p, "&7- &6from " + start.getKey());
+						BukkitUtil.msg(p, "&7- &6from " + start.getKey());
 					}
 					for (EndPoint destination : ep.getDestinations().keySet()) {
-						Util.msg(p, "&7- &6to " + destination.getKey());
+						BukkitUtil.msg(p, "&7- &6to " + destination.getKey());
 					}
 					return;
 				}
 				NavigationManager.removeEndpoint(ep.getKey());
-				Util.msg(p, "Successfully removed endpoint!");
+				BukkitUtil.msg(p, "Successfully removed endpoint!");
 			}
 			else {
 				editor.editEndpoint(point, new EndPoint());
-				Util.msg(p, "Type a key for the endpoint (No spaces)!");
+				BukkitUtil.msg(p, "Type a key for the endpoint (No spaces)!");
 			}
 		}
 	}

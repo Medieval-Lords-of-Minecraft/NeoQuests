@@ -8,7 +8,7 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neoquests.NeoQuests;
 
 public class CmdQuestAdminRemoveTag implements Subcommand {
@@ -40,7 +40,7 @@ public class CmdQuestAdminRemoveTag implements Subcommand {
 		Player p = Bukkit.getPlayer(args[0]);
 		
 		if (p == null) {
-			Util.msg(s, "&cCould not remove quest tag, player not online: " + args[0]);
+			BukkitUtil.msg(s, "&cCould not remove quest tag, player not online: " + args[0]);
 		}
 		NeoQuests.getPlayerTags(p).reset(args[1], p.getUniqueId());
 	}

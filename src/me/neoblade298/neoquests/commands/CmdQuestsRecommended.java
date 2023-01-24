@@ -14,8 +14,8 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.PaginatedList;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.util.PaginatedList;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.conditions.ConditionManager;
 import me.neoblade298.neoquests.quests.QuestRecommendation;
@@ -73,7 +73,7 @@ public class CmdQuestsRecommended implements Subcommand {
 				page = Integer.parseInt(args[offset]) - 1;
 			}
 			else {
-				Util.msg(s, "&cInvalid argument, must be a page number!");
+				BukkitUtil.msg(s, "&cInvalid argument, must be a page number!");
 				return;
 			}
 		}
@@ -97,21 +97,21 @@ public class CmdQuestsRecommended implements Subcommand {
 		}
 		
 		if (page < 0 || page > pages.pages() - 1) {
-			Util.msg(s, "&cPage out of bounds!");
+			BukkitUtil.msg(s, "&cPage out of bounds!");
 			return;
 		}
 		
 		if (pages.size() == 0) {
 			if (challenges) {
-				Util.msg(s, "&7No challenges at this level! Try &c/quests list&7, this lists ANY quest you can take that you haven't finished!");
+				BukkitUtil.msg(s, "&7No challenges at this level! Try &c/quests list&7, this lists ANY quest you can take that you haven't finished!");
 			}
 			else {
-				Util.msg(s, "&7No recommendations at this level! Try &c/quests challenges&7!");
+				BukkitUtil.msg(s, "&7No recommendations at this level! Try &c/quests challenges&7!");
 			}
 			return;
 		}
 		
-		Util.msg(s, "&7Recommended quests for you:");
+		BukkitUtil.msg(s, "&7Recommended quests for you:");
 		for (QuestRecommendation rec : pages.get(page)) {
 			ComponentBuilder text = new ComponentBuilder("§7- §6" + rec.getQuest().getDisplay());
 			if (rec.getEndpoint() == null) {

@@ -12,8 +12,8 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.PaginatedList;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.util.PaginatedList;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.conditions.ConditionManager;
 import me.neoblade298.neoquests.quests.Quest;
@@ -55,7 +55,7 @@ public class CmdQuestsList implements Subcommand {
 				}
 				
 				if (args.length > offset && !StringUtils.isNumeric(args[offset])) {
-					Util.msg(s, "&cInvalid argument! Must be a page number.");
+					BukkitUtil.msg(s, "&cInvalid argument! Must be a page number.");
 					return;
 				}
 				
@@ -68,15 +68,15 @@ public class CmdQuestsList implements Subcommand {
 				
 				int page = args.length > offset ? Integer.parseInt(args[offset]) - 1 : 0;
 				if (page < 0 || page >= list.pages()) {
-					Util.msg(s, "&cInvalid page number! Max page is " + list.pages());
+					BukkitUtil.msg(s, "&cInvalid page number! Max page is " + list.pages());
 					return;
 				}
 				
-				Util.msg(s, "&6-[Available Quests]-", false);
+				BukkitUtil.msg(s, "&6-[Available Quests]-", false);
 				for (Quest q : list.get(page)) {
 					String msg = "&7- ";
 					msg += q.getDisplay();
-					Util.msg(s, msg, false);
+					BukkitUtil.msg(s, msg, false);
 				}
 				String nextCmd = "/quests list " + (page + 2);
 				String prevCmd = "/quests list " + page;

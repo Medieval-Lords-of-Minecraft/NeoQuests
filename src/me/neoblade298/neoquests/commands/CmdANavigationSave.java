@@ -10,8 +10,9 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neocore.shared.exceptions.NeoIOException;
-import me.neoblade298.neocore.util.Util;
+
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.navigation.NavigationManager;
 
@@ -42,7 +43,7 @@ public class CmdANavigationSave implements Subcommand {
 	public void run(CommandSender s, String[] args) {
 		Player p = (Player) s;
 		if (NavigationManager.getEditor(p) == null) {
-			Util.msg(p, "§cYou aren't in a pathway editor!");
+			BukkitUtil.msg(p, "§cYou aren't in a pathway editor!");
 			return;
 		}
 		try {

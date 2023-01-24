@@ -11,8 +11,8 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.PaginatedList;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.util.PaginatedList;
 import me.neoblade298.neoquests.quests.CompletedQuest;
 import me.neoblade298.neoquests.quests.Quester;
 import me.neoblade298.neoquests.quests.QuestsManager;
@@ -52,28 +52,28 @@ public class CmdQuestsLog implements Subcommand {
 		
 		Quester quester = QuestsManager.initializeOrGetQuester(p);
 		if (quester.getCompletedQuests().size() == 0) {
-			Util.msg(s, "&cYou don't yet have any completed quests!");
+			BukkitUtil.msg(s, "&cYou don't yet have any completed quests!");
 			return;
 		}
 		
 		if (args.length > offset && !StringUtils.isNumeric(args[offset])) {
-			Util.msg(s, "&cInvalid argument! Must be a page number.");
+			BukkitUtil.msg(s, "&cInvalid argument! Must be a page number.");
 			return;
 		}
 		
 		PaginatedList<CompletedQuest> list = new PaginatedList<CompletedQuest>(quester.getCompletedQuests());
 		int page = args.length > offset ? Integer.parseInt(args[offset]) - 1 : 0;
 		if (page < 0 || page >= list.pages()) {
-			Util.msg(s, "&cInvalid page number! Max page is " + list.pages());
+			BukkitUtil.msg(s, "&cInvalid page number! Max page is " + list.pages());
 			return;
 		}
 		
-		Util.msg(s, "&6-[Quest Log]-", false);
+		BukkitUtil.msg(s, "&6-[Quest Log]-", false);
 		for (CompletedQuest cq : list.get(page)) {
 			String msg = "&7- ";
 			msg += cq.isSuccess() ? "&a" : "&c";
 			msg += cq.getQuest().getDisplay();
-			Util.msg(s, msg, false);
+			BukkitUtil.msg(s, msg, false);
 		}
 		String nextCmd = "/quests log " + p.getName() + " "+ (page + 2);
 		String prevCmd = "/quests log " + p.getName() + " " + page;

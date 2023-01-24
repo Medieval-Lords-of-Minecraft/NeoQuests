@@ -9,7 +9,7 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neoquests.navigation.EndPoint;
 import me.neoblade298.neoquests.navigation.NavigationManager;
 import me.neoblade298.neoquests.navigation.PathwayEditor;
@@ -42,18 +42,18 @@ public class CmdANavigationAddPathway implements Subcommand {
 		Player p = (Player) s;
 		PathwayEditor editor = NavigationManager.getEditor(p);
 		if (editor == null) {
-			Util.msg(p, "&cYou need to be in the editor to use this command!");
+			BukkitUtil.msg(p, "&cYou need to be in the editor to use this command!");
 			return;
 		}
 		
 		EndPoint start = NavigationManager.getEndpoint(args[0].toUpperCase());
 		EndPoint end = NavigationManager.getEndpoint(args[1].toUpperCase());
 		if (start == null) {
-			Util.msg(p, "&cThe start point doesn't exist!");
+			BukkitUtil.msg(p, "&cThe start point doesn't exist!");
 			return;
 		}
 		if (end == null) {
-			Util.msg(p, "&cThe destination point doesn't exist!");
+			BukkitUtil.msg(p, "&cThe destination point doesn't exist!");
 			return;
 		}
 		

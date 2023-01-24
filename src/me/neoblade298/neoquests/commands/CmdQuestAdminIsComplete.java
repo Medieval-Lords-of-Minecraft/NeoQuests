@@ -10,7 +10,7 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neoquests.quests.CompletedQuest;
 import me.neoblade298.neoquests.quests.Quester;
 import me.neoblade298.neoquests.quests.QuestsManager;
@@ -47,22 +47,22 @@ public class CmdQuestAdminIsComplete implements Subcommand {
 		else {
 			p = Bukkit.getPlayer(args[1]);
 			if (p == null) {
-				Util.msg(s, "&cThis player is not online!");
+				BukkitUtil.msg(s, "&cThis player is not online!");
 				return;
 			}
 		}
 		
 		Quester q = QuestsManager.getQuester(p);
 		if (q == null) {
-			Util.msg(s, "&cThis account hasn't loaded in yet! Try again in a few seconds.");
+			BukkitUtil.msg(s, "&cThis account hasn't loaded in yet! Try again in a few seconds.");
 			return;
 		}
 		CompletedQuest cq = q.getCompletedQuest(args[0]);
 		if (cq != null) {
-			Util.msg(s, q.getPlayer().getName() + " &7has completed the quest &e" + cq.getQuest().getDisplay());
+			BukkitUtil.msg(s, q.getPlayer().getName() + " &7has completed the quest &e" + cq.getQuest().getDisplay());
 		}
 		else {
-			Util.msg(s, q.getPlayer().getName() + " &7has not completed this quest");
+			BukkitUtil.msg(s, q.getPlayer().getName() + " &7has not completed this quest");
 		}
 	}
 

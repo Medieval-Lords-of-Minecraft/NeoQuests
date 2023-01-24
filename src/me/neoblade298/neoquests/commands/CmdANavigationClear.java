@@ -4,7 +4,7 @@ import org.bukkit.command.CommandSender;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neoquests.navigation.NavigationManager;
 
 public class CmdANavigationClear implements Subcommand {
@@ -33,7 +33,7 @@ public class CmdANavigationClear implements Subcommand {
 	@Override
 	public void run(CommandSender s, String[] args) {
 		NavigationManager.clearUnusedPoints(s);
-		Util.msg(s, "&7Finished clearing all unused points.");
+		BukkitUtil.msg(s, "&7Finished clearing all unused points.");
 	}
 
 	@Override

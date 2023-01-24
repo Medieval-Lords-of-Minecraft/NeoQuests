@@ -1,5 +1,6 @@
 package me.neoblade298.neoquests.commands;
 
+import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.UUID;
@@ -17,7 +18,7 @@ import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
 import me.neoblade298.neocore.bukkit.player.PlayerTags;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.conversations.ConversationManager;
 import me.neoblade298.neoquests.quests.Quester;
@@ -62,12 +63,12 @@ public class CmdQuestAdminReset implements Subcommand {
 			offset = 1;
 		}
 		else {
-			Util.msg(s, "&cSomething's wrong with the command arguments!");
+			BukkitUtil.msg(s, "&cSomething's wrong with the command arguments!");
 		}
 		
-		Statement stmt = NeoCore.getStatement("QuestsManager");
 		UUID uuid = p.getUniqueId();
-		try {
+		try (Connection con = NeoCore.getConnection("QuestsManager");
+				Statement stmt = con.createStatement();){
 			// No args, reset only the account you're on
 			if (args.length == offset) {
 				int account = NeoQuests.isTowny ? 1 : SkillAPI.getPlayerAccountData(p).getActiveId();
@@ -81,12 +82,12 @@ public class CmdQuestAdminReset implements Subcommand {
 			// Has args, reset a specific account
 			else {
 				if (!StringUtils.isNumeric(args[offset])) {
-					Util.msg(s, "&cAccount must be a number!");
+					BukkitUtil.msg(s, "&cAccount must be a number!");
 				}
 				int acct = Integer.parseInt(args[offset]);
 				Quester quester = QuestsManager.getQuester(p, acct);
 				if (quester == null) {
-					Util.msg(s, "&cThis account doesn't exist!");
+					BukkitUtil.msg(s, "&cThis account doesn't exist!");
 				}
 				stmt.execute("DELETE FROM quests_completed WHERE uuid = '" + uuid + "' AND account = " + args[1] + ";");
 				stmt.execute("DELETE FROM quests_accounts WHERE uuid = '" + uuid + "' AND account = " + args[1] + ";");
@@ -97,10 +98,10 @@ public class CmdQuestAdminReset implements Subcommand {
 				pTags.resetAllTags(uuid);
 			}
 			ConversationManager.endConversation(p, false);
-			Util.msg(s, "&7Successfully reset player &6" + p.getName() + ".");
+			BukkitUtil.msg(s, "&7Successfully reset player &6" + p.getName() + ".");
 		}
 		catch (Exception e) {
-			Util.msg(s, "&cCommand failed! Stack trace in console.");
+			BukkitUtil.msg(s, "&cCommand failed! Stack trace in console.");
 			e.printStackTrace();
 		} 
 	}

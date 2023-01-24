@@ -9,7 +9,7 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.quests.Quester;
 import me.neoblade298.neoquests.quests.QuestsManager;
@@ -50,7 +50,7 @@ public class CmdQuestsQuit implements Subcommand {
 				q.cancelQuest(q.getActiveQuests().iterator().next().getQuest().getKey());
 			}
 			else {
-				Util.msg(p, "§cYou don't have any active quests!");
+				BukkitUtil.msg(p, "§cYou don't have any active quests!");
 			}
 		}
 		else {

@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.neoblade298.neocore.bukkit.bar.BarAPI;
 import me.neoblade298.neocore.bukkit.bar.CoreBar;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.commands.CmdQuestsRecommended;
 import me.neoblade298.neoquests.conditions.Condition;
@@ -125,14 +125,14 @@ public class Quester {
 	public void displayQuests(CommandSender s) {
 		if (activeQuests.size() > 0) {
 			for (QuestInstance qi : activeQuests.values()) {
-				Util.msg(s, "&7&m= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =", false);
+				BukkitUtil.msg(s, "&7&m= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =", false);
 				ComponentBuilder builder = new ComponentBuilder("§6§l" + qi.getQuest().getDisplay()) ;
 				ComponentBuilder quitquest = new ComponentBuilder(" §7§o[Click to Quit]")
 						.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/quests quit " + qi.getQuest().getKey()));
 				s.spigot().sendMessage(builder.append(quitquest.create()).create());
 				qi.displayObjectives(s);
 			}
-			Util.msg(s, "&7&m= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =", false);
+			BukkitUtil.msg(s, "&7&m= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =", false);
 			ComponentBuilder builder = new ComponentBuilder("§7§o[Other Available Quests]")
 					.event(new HoverEvent(Action.SHOW_TEXT, new Text("/quests guide")))
 					.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/quests guide " + this.p.getName()));
@@ -156,9 +156,9 @@ public class Quester {
 					nullQuestlines.add(e.getKey());
 					continue;
 				}
-				Util.msg(s, "&7&m= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =", false);
+				BukkitUtil.msg(s, "&7&m= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =", false);
 				if (first) {
-					Util.msg(s, "&6&lActive Questlines:");
+					BukkitUtil.msg(s, "&6&lActive Questlines:");
 				}
 				ComponentBuilder builder = new ComponentBuilder("§7- §6" + ql.getDisplay() + " §7(§e" + next.getDisplay() + "§7) ");
 				ComponentBuilder takequest = new ComponentBuilder("§7§o[Click to Take]")
@@ -169,7 +169,7 @@ public class Quester {
 			
 			// Only add line if there's actually a nonnull questline
 			if (nullQuestlines.size() != activeQuestlines.size()) {
-				Util.msg(s, "&7&m= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =", false);
+				BukkitUtil.msg(s, "&7&m= = = = = = = = = = = = = = = = = = = = = = = = = = = = = =", false);
 			}
 			for (String key : nullQuestlines) {
 				activeQuestlines.remove(key);

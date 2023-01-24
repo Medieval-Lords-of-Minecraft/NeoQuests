@@ -10,7 +10,7 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neoquests.quests.CompletedQuest;
 import me.neoblade298.neoquests.quests.Quest;
 import me.neoblade298.neoquests.quests.Quester;
@@ -51,7 +51,7 @@ public class CmdQuestAdminCompleteQL implements Subcommand {
 		for (Quest q : ql.getQuests()) {
 			quester.addCompletedQuest(new CompletedQuest(q, -1, true));
 		}
-		Util.msg(s, "&7Successfully added questline &6" + ql.getDisplay() + " &7to player &e" + p.getName());
+		BukkitUtil.msg(s, "&7Successfully added questline &6" + ql.getDisplay() + " &7to player &e" + p.getName());
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neoquests.quests.QuestsManager;
 
 public class CmdQuestsView implements Subcommand {
@@ -40,7 +40,7 @@ public class CmdQuestsView implements Subcommand {
 	public void run(CommandSender s, String[] args) {
 		Player p = Bukkit.getPlayer(args[0]);
 		if (p == null) {
-			Util.msg(s, "&cThat player is not online!");
+			BukkitUtil.msg(s, "&cThat player is not online!");
 			return;
 		}
 		

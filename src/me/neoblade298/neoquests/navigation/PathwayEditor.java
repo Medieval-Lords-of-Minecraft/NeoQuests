@@ -13,8 +13,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neocore.shared.exceptions.NeoIOException;
-import me.neoblade298.neocore.util.Util;
+
 import me.neoblade298.neoquests.ParticleUtils;
 
 public class PathwayEditor {
@@ -46,36 +47,36 @@ public class PathwayEditor {
 		Point selected = points.peekLast();
 		
 		if (point.isEndpoint()) {
-			Util.msg(p, "&7Connected: &6" + point.getEndpoint().getKey());
+			BukkitUtil.msg(p, "&7Connected: &6" + point.getEndpoint().getKey());
 		}
 		
 		if (selected == null) {
 			points.add(point);
 			pathwayObjects.add(point);
 			point.addConnection("editor");
-			Util.msg(p, "§7Started pathway connection!");
+			BukkitUtil.msg(p, "§7Started pathway connection!");
 			return;
 		}
 		
 		if (!selected.getLocation().getWorld().equals(point.getLocation().getWorld())) {
-			Util.msg(p, "§cYou cannot connect points between worlds!");
+			BukkitUtil.msg(p, "§cYou cannot connect points between worlds!");
 		}
 		
 		point.addConnection("editor");
 		points.add(point);
 		pathwayObjects.add(point);
 		selected = point;
-		Util.msg(p, "§7Successfully connected points and selected point!");
+		BukkitUtil.msg(p, "§7Successfully connected points and selected point!");
 	}
 	
 	public void addExistingPathway(Player p, EndPoint start, EndPoint end) {
 		LinkedList<Point> pathway = start.getPathToDestination(end);
 		if (pathway == null) {
-			Util.msg(p, "&cThis pathway doesn't exist!");
+			BukkitUtil.msg(p, "&cThis pathway doesn't exist!");
 			return;
 		}
 		
-		Util.msg(p, "&7Successfully added existing pathway!");
+		BukkitUtil.msg(p, "&7Successfully added existing pathway!");
 		points.addAll(pathway);
 		pathwayObjects.add(new FuturePointSet(start, end));
 	}
@@ -92,21 +93,21 @@ public class PathwayEditor {
 		if (pathwayObjects.size() > 0) {
 			points.removeLast().removeConnection("editor");
 			pathwayObjects.removeLast();
-			Util.msg(p, "Successfully undid last connection!");
+			BukkitUtil.msg(p, "Successfully undid last connection!");
 		}
 		else {
-			Util.msg(p, "Nothing to undo!");
+			BukkitUtil.msg(p, "Nothing to undo!");
 		}
 	}
 	
 	public boolean save(boolean bidirectional) throws NeoIOException {
 		if (points.size() == 0) {
-			Util.msg(p, "No points have been connected yet!");
+			BukkitUtil.msg(p, "No points have been connected yet!");
 			return false;
 		}
 
 		if (!points.getFirst().isEndpoint() || !points.peekLast().isEndpoint()) {
-			Util.msg(p, "&cEither the start or finish point is not an endpoint! Drop a stick while "
+			BukkitUtil.msg(p, "&cEither the start or finish point is not an endpoint! Drop a stick while "
 					+ "pointing at the point to make it an endpoint!");
 			return false;
 		}
@@ -154,7 +155,7 @@ public class PathwayEditor {
 				start.addStartPoint(end, rev);
 			}
 			
-			Util.msg(p, "Successfully saved new pathway!");
+			BukkitUtil.msg(p, "Successfully saved new pathway!");
 			reset();
 			return true;
 		}
@@ -177,18 +178,18 @@ public class PathwayEditor {
 			return;
 		}
 		if (point.isConnected()) {
-			Util.msg(p, "§cCannot delete point! It is still connected to the following pathways:");
+			BukkitUtil.msg(p, "§cCannot delete point! It is still connected to the following pathways:");
 			for (String key : point.getPathwaysUsing()) {
-				Util.msg(p, "&7- &6" + key, false);
+				BukkitUtil.msg(p, "&7- &6" + key, false);
 			}
 			return;
 		}
 		
 		if (!NavigationManager.deletePoint(point)) {
-			Util.msg(p, "§cFailed to delete point!");
+			BukkitUtil.msg(p, "§cFailed to delete point!");
 		}
 		else {
-			Util.msg(p, "Successfully deleted point");
+			BukkitUtil.msg(p, "Successfully deleted point");
 		}
 	}
 	

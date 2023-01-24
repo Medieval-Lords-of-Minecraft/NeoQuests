@@ -10,7 +10,7 @@ import me.neoblade298.neocore.bukkit.commands.CommandArgument;
 import me.neoblade298.neocore.bukkit.commands.CommandArguments;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
 import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.util.Util;
+import me.neoblade298.neocore.bukkit.util.BukkitUtil;
 import me.neoblade298.neoquests.navigation.EndPoint;
 import me.neoblade298.neoquests.navigation.NavigationManager;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -53,13 +53,13 @@ public class CmdANavigationFrom implements Subcommand {
 		}
 		
 		if (p == null) {
-			Util.msg(s, "&cPlayer is not online!");
+			BukkitUtil.msg(s, "&cPlayer is not online!");
 		}
 		
 		EndPoint point = NavigationManager.getEndpoint(args[0]);
 		int destsize = point.getDestinations().size();
 		if (destsize > 0) {
-			Util.msg(p, "Setting start point to &6" + point.getDisplay() + "&7. Choose a destination:");
+			BukkitUtil.msg(p, "Setting start point to &6" + point.getDisplay() + "&7. Choose a destination:");
 			for (EndPoint dest : point.getDestinations().keySet()) {
 				ComponentBuilder entry = new ComponentBuilder("§7- §6" + dest.getDisplay())
 						.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/nav start " + point.getKey() + " " + dest.getKey()))
@@ -76,7 +76,7 @@ public class CmdANavigationFrom implements Subcommand {
 			NavigationManager.startNavigation(p, args[0], dest);
 		}
 		else {
-			Util.msg(p, "&cThis start point is not connected to any destinations!");
+			BukkitUtil.msg(p, "&cThis start point is not connected to any destinations!");
 		}
 	}
 
