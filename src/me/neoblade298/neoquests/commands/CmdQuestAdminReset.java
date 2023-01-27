@@ -2,7 +2,6 @@ package me.neoblade298.neoquests.commands;
 
 import java.sql.Connection;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -13,39 +12,20 @@ import com.sucy.skill.SkillAPI;
 
 import io.lumine.mythic.bukkit.utils.lib.lang3.StringUtils;
 import me.neoblade298.neocore.bukkit.NeoCore;
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
 import me.neoblade298.neocore.bukkit.player.PlayerTags;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.conversations.ConversationManager;
 import me.neoblade298.neoquests.quests.Quester;
 import me.neoblade298.neoquests.quests.QuestsManager;
 
-public class CmdQuestAdminReset implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(Arrays.asList(new CommandArgument("player", false),
-			new CommandArgument("account #", false)));
-
-	@Override
-	public String getDescription() {
-		return "Resets a player's completed quests";
-	}
-
-	@Override
-	public String getKey() {
-		return "reset";
-	}
-
-	@Override
-	public String getPermission() {
-		return "neoquests.admin";
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.BOTH;
+public class CmdQuestAdminReset extends Subcommand {
+	public CmdQuestAdminReset(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("player", false), new Arg("account #", false));
 	}
 
 	@Override
@@ -63,7 +43,7 @@ public class CmdQuestAdminReset implements Subcommand {
 			offset = 1;
 		}
 		else {
-			BukkitUtil.msg(s, "&cSomething's wrong with the command arguments!");
+			Util.msg(s, "&cSomething's wrong with the command arguments!");
 		}
 		
 		UUID uuid = p.getUniqueId();
@@ -82,12 +62,12 @@ public class CmdQuestAdminReset implements Subcommand {
 			// Has args, reset a specific account
 			else {
 				if (!StringUtils.isNumeric(args[offset])) {
-					BukkitUtil.msg(s, "&cAccount must be a number!");
+					Util.msg(s, "&cAccount must be a number!");
 				}
 				int acct = Integer.parseInt(args[offset]);
 				Quester quester = QuestsManager.getQuester(p, acct);
 				if (quester == null) {
-					BukkitUtil.msg(s, "&cThis account doesn't exist!");
+					Util.msg(s, "&cThis account doesn't exist!");
 				}
 				stmt.execute("DELETE FROM quests_completed WHERE uuid = '" + uuid + "' AND account = " + args[1] + ";");
 				stmt.execute("DELETE FROM quests_accounts WHERE uuid = '" + uuid + "' AND account = " + args[1] + ";");
@@ -98,17 +78,11 @@ public class CmdQuestAdminReset implements Subcommand {
 				pTags.resetAllTags(uuid);
 			}
 			ConversationManager.endConversation(p, false);
-			BukkitUtil.msg(s, "&7Successfully reset player &6" + p.getName() + ".");
+			Util.msg(s, "&7Successfully reset player &6" + p.getName() + ".");
 		}
 		catch (Exception e) {
-			BukkitUtil.msg(s, "&cCommand failed! Stack trace in console.");
+			Util.msg(s, "&cCommand failed! Stack trace in console.");
 			e.printStackTrace();
 		} 
 	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
-	}
-
 }

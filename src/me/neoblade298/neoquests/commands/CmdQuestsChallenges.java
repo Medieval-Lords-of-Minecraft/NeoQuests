@@ -1,43 +1,18 @@
 package me.neoblade298.neoquests.commands;
 
-import java.util.Arrays;
-
 import org.bukkit.command.CommandSender;
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
 
-public class CmdQuestsChallenges implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(Arrays.asList(new CommandArgument("page", false)));
-
-	@Override
-	public String getDescription() {
-		return "Lists challenging quests for you to take";
-	}
-
-	@Override
-	public String getKey() {
-		return "challenges";
-	}
-
-	@Override
-	public String getPermission() {
-		return null;
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.PLAYER_ONLY;
+public class CmdQuestsChallenges extends Subcommand {
+	public CmdQuestsChallenges(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("page", false));
 	}
 
 	@Override
 	public void run(CommandSender s, String[] args) {
 		CmdQuestsRecommended.run(s, args, true);
-	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
 	}
 }

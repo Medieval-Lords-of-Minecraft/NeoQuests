@@ -4,35 +4,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neoquests.NeoQuests;
 
-public class CmdQuestAdminAddTag implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(new CommandArgument("player"),
-			new CommandArgument("tag"));
-
-	@Override
-	public String getDescription() {
-		return "Adds a tag to a player's current quest account";
-	}
-
-	@Override
-	public String getKey() {
-		return "addtag";
-	}
-
-	@Override
-	public String getPermission() {
-		return "neoquests.admin";
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.BOTH;
+public class CmdQuestAdminAddTag extends Subcommand {
+	public CmdQuestAdminAddTag(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("player"), new Arg("tag"));
 	}
 
 	@Override
@@ -40,14 +21,8 @@ public class CmdQuestAdminAddTag implements Subcommand {
 		Player p = Bukkit.getPlayer(args[0]);
 		
 		if (p == null) {
-			BukkitUtil.msg(s, "&cCould not add quest tag, player not online: " + args[0]);
+			Util.msg(s, "&cCould not add quest tag, player not online: " + args[0]);
 		}
 		NeoQuests.getPlayerTags(p).set(args[1], p.getUniqueId());
 	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
-	}
-
 }

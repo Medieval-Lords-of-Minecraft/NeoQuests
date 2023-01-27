@@ -1,41 +1,19 @@
 package me.neoblade298.neoquests.commands;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neoquests.navigation.NavigationManager;
 
-public class CmdANavigationStart implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(Arrays.asList(new CommandArgument("player", false), 
-			new CommandArgument("start"),
-			new CommandArgument("end")));
-
-	@Override
-	public String getDescription() {
-		return "Starts navigation for a player";
-	}
-
-	@Override
-	public String getKey() {
-		return "start";
-	}
-
-	@Override
-	public String getPermission() {
-		return "neoquests.admin";
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.BOTH;
+public class CmdANavigationStart extends Subcommand {
+	public CmdANavigationStart(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("player", false), new Arg("start"), new Arg("end"));
 	}
 
 	@Override
@@ -51,14 +29,8 @@ public class CmdANavigationStart implements Subcommand {
 		}
 		
 		if (p == null) {
-			BukkitUtil.msg(s, "&cPlayer is not online!");
+			Util.msg(s, "&cPlayer is not online!");
 		}
 		NavigationManager.startNavigation(p, args[offset], args[offset + 1]);
 	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
-	}
-
 }

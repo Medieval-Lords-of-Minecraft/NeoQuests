@@ -1,39 +1,18 @@
 package me.neoblade298.neoquests.commands;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
 import me.neoblade298.neoquests.quests.QuestsManager;
 
-public class CmdQuestAdminStart implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(Arrays.asList(new CommandArgument("key"),
-			new CommandArgument("player", false)));
-
-	@Override
-	public String getDescription() {
-		return "Instantly starts a quest, ignoring all conditions";
-	}
-
-	@Override
-	public String getKey() {
-		return "start";
-	}
-
-	@Override
-	public String getPermission() {
-		return "neoquests.admin";
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.BOTH;
+public class CmdQuestAdminStart extends Subcommand {
+	public CmdQuestAdminStart(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("key"), new Arg("player", false));
 	}
 
 	@Override
@@ -46,10 +25,5 @@ public class CmdQuestAdminStart implements Subcommand {
 			p = (Player) s;
 		}
 		QuestsManager.startQuest(p, args[0], true);
-	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
 	}
 }

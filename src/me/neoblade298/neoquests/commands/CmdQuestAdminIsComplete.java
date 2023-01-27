@@ -1,41 +1,21 @@
 package me.neoblade298.neoquests.commands;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neoquests.quests.CompletedQuest;
 import me.neoblade298.neoquests.quests.Quester;
 import me.neoblade298.neoquests.quests.QuestsManager;
 
-public class CmdQuestAdminIsComplete implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(Arrays.asList(new CommandArgument("key"), new CommandArgument("player", false)));
-
-	@Override
-	public String getDescription() {
-		return "Check if a player has completed a quest";
-	}
-
-	@Override
-	public String getKey() {
-		return "iscomplete";
-	}
-
-	@Override
-	public String getPermission() {
-		return null;
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.BOTH;
+public class CmdQuestAdminIsComplete extends Subcommand {
+	public CmdQuestAdminIsComplete(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("key"), new Arg("player", false));
 	}
 
 	@Override
@@ -47,28 +27,22 @@ public class CmdQuestAdminIsComplete implements Subcommand {
 		else {
 			p = Bukkit.getPlayer(args[1]);
 			if (p == null) {
-				BukkitUtil.msg(s, "&cThis player is not online!");
+				Util.msg(s, "&cThis player is not online!");
 				return;
 			}
 		}
 		
 		Quester q = QuestsManager.getQuester(p);
 		if (q == null) {
-			BukkitUtil.msg(s, "&cThis account hasn't loaded in yet! Try again in a few seconds.");
+			Util.msg(s, "&cThis account hasn't loaded in yet! Try again in a few seconds.");
 			return;
 		}
 		CompletedQuest cq = q.getCompletedQuest(args[0]);
 		if (cq != null) {
-			BukkitUtil.msg(s, q.getPlayer().getName() + " &7has completed the quest &e" + cq.getQuest().getDisplay());
+			Util.msg(s, q.getPlayer().getName() + " &7has completed the quest &e" + cq.getQuest().getDisplay());
 		}
 		else {
-			BukkitUtil.msg(s, q.getPlayer().getName() + " &7has not completed this quest");
+			Util.msg(s, q.getPlayer().getName() + " &7has not completed this quest");
 		}
 	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
-	}
-
 }

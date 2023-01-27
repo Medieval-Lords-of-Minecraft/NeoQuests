@@ -7,36 +7,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neoquests.listeners.ObjectiveListener;
 import me.neoblade298.neoquests.objectives.ObjectiveEvent;
 import me.neoblade298.neoquests.objectives.ObjectiveInstance;
 
-public class CmdQuestAdminDebug implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(new CommandArgument("player"));
-
-	@Override
-	public String getDescription() {
-		return "Checks a player's listened objectives";
-	}
-
-	@Override
-	public String getKey() {
-		return "debug";
-	}
-
-	@Override
-	public String getPermission() {
-		return "neoquests.admin";
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.BOTH;
+public class CmdQuestAdminDebug extends Subcommand {
+	public CmdQuestAdminDebug(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("player"));
 	}
 
 	@Override
@@ -44,21 +26,15 @@ public class CmdQuestAdminDebug implements Subcommand {
 		Player p = Bukkit.getPlayer(args[0]);
 		
 		if (p == null) {
-			BukkitUtil.msg(s, "&cCould not check objectives, player not online: " + args[0]);
+			Util.msg(s, "&cCould not check objectives, player not online: " + args[0]);
 		}
 		for (Entry<ObjectiveEvent, ArrayList<ObjectiveInstance>> entry : ObjectiveListener.getPlayerInstances(p).entrySet()) {
 			if (entry.getValue() == null || entry.getValue().size() == 0) continue;
-			BukkitUtil.msg(s, "&e" + entry.getKey().name() + ":", false);
+			Util.msg(s, "&e" + entry.getKey().name() + ":", false);
 			for (ObjectiveInstance oi : entry.getValue()) {
-				BukkitUtil.msg(s, oi.getObjective().getDisplay(), false);
+				Util.msg(s, oi.getObjective().getDisplay(), false);
 			}
 			
 		}
 	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
-	}
-
 }

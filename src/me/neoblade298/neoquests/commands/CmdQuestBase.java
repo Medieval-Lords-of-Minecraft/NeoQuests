@@ -4,35 +4,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neoquests.quests.Quester;
 import me.neoblade298.neoquests.quests.QuestsManager;
 
-public class CmdQuestBase implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(new CommandArgument("player", false));
-
-	@Override
-	public String getDescription() {
-		return null;
-	}
-
-	@Override
-	public String getKey() {
-		return "";
-	}
-
-	@Override
-	public String getPermission() {
-		return null;
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.BOTH;
+public class CmdQuestBase extends Subcommand {
+	public CmdQuestBase(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("player", false));
 	}
 
 	@Override
@@ -44,22 +26,16 @@ public class CmdQuestBase implements Subcommand {
 		else {
 			p = Bukkit.getPlayer(args[0]);
 			if (p == null) {
-				BukkitUtil.msg(s, "&cThis player is not online!");
+				Util.msg(s, "&cThis player is not online!");
 				return;
 			}
 		}
 		
 		Quester q = QuestsManager.getQuester(p);
 		if (q == null) {
-			BukkitUtil.msg(s, "&cThis account hasn't loaded in yet! Try again in a few seconds.");
+			Util.msg(s, "&cThis account hasn't loaded in yet! Try again in a few seconds.");
 			return;
 		}
 		q.displayQuests(s);
 	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
-	}
-
 }

@@ -1,16 +1,13 @@
 package me.neoblade298.neoquests.commands;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neoquests.navigation.EndPoint;
 import me.neoblade298.neoquests.navigation.NavigationManager;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -18,28 +15,10 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 
-public class CmdANavigationFrom implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(Arrays.asList(new CommandArgument("endpoint"),
-			new CommandArgument("player", false)));
-
-	@Override
-	public String getDescription() {
-		return "Starts navigation for a player from an endpoint";
-	}
-
-	@Override
-	public String getKey() {
-		return "from";
-	}
-
-	@Override
-	public String getPermission() {
-		return "neoquests.admin";
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.BOTH;
+public class CmdANavigationFrom extends Subcommand {
+	public CmdANavigationFrom(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("endpoint"), new Arg("player", false));
 	}
 
 	@Override
@@ -53,13 +32,13 @@ public class CmdANavigationFrom implements Subcommand {
 		}
 		
 		if (p == null) {
-			BukkitUtil.msg(s, "&cPlayer is not online!");
+			Util.msg(s, "&cPlayer is not online!");
 		}
 		
 		EndPoint point = NavigationManager.getEndpoint(args[0]);
 		int destsize = point.getDestinations().size();
 		if (destsize > 0) {
-			BukkitUtil.msg(p, "Setting start point to &6" + point.getDisplay() + "&7. Choose a destination:");
+			Util.msg(p, "Setting start point to &6" + point.getDisplay() + "&7. Choose a destination:");
 			for (EndPoint dest : point.getDestinations().keySet()) {
 				ComponentBuilder entry = new ComponentBuilder("§7- §6" + dest.getDisplay())
 						.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/nav start " + point.getKey() + " " + dest.getKey()))
@@ -76,13 +55,7 @@ public class CmdANavigationFrom implements Subcommand {
 			NavigationManager.startNavigation(p, args[0], dest);
 		}
 		else {
-			BukkitUtil.msg(p, "&cThis start point is not connected to any destinations!");
+			Util.msg(p, "&cThis start point is not connected to any destinations!");
 		}
 	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
-	}
-
 }

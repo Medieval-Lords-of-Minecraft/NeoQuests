@@ -4,35 +4,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import io.lumine.mythic.bukkit.utils.lib.lang3.StringUtils;
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neoquests.conversations.ConversationInstance;
 import me.neoblade298.neoquests.conversations.ConversationManager;
 
-public class CmdConvAnswer implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(new CommandArgument("number"));
-
-	@Override
-	public String getDescription() {
-		return "Answers an existing conversation";
-	}
-
-	@Override
-	public String getKey() {
-		return "answer";
-	}
-
-	@Override
-	public String getPermission() {
-		return null;
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.PLAYER_ONLY;
+public class CmdConvAnswer extends Subcommand {
+	public CmdConvAnswer(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("number"));
+		hidden = true;
 	}
 
 	@Override
@@ -40,20 +23,10 @@ public class CmdConvAnswer implements Subcommand {
 		Player p = (Player) s;
 		ConversationInstance ci = ConversationManager.getActiveConversation(p);
 		if (ci == null) {
-			BukkitUtil.msg(s, "&cYou're not in a conversation!");
+			Util.msg(s, "&cYou're not in a conversation!");
 		}
 		else if (StringUtils.isNumeric(args[0])) {
 			ci.chooseResponse(Integer.parseInt(args[0]) - 1);
 		}
-	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
-	}
-
-	@Override
-	public boolean isHidden() {
-		return true;
 	}
 }

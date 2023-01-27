@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.ParticleUtils;
 
@@ -71,13 +71,13 @@ public class PathwayInstance {
 	
 	public void stop() {
 		task.cancel();
-		BukkitUtil.msg(p, "Navigation from &6" + start.getDisplay() + " &7to &6" + end.getDisplay() + " &7was successful!");
+		Util.msg(p, "Navigation from &6" + start.getDisplay() + " &7to &6" + end.getDisplay() + " &7was successful!");
 		NavigationManager.removeActivePathway(p);
 	}
 	
 	public void cancel(String reason, boolean isIterating) {
 		task.cancel();
-		BukkitUtil.msg(p, "Navigation from &6" + start.getDisplay() + "&7 to &6" + end.getDisplay() + "&7 was cancelled: " + reason);
+		Util.msg(p, "Navigation from &6" + start.getDisplay() + "&7 to &6" + end.getDisplay() + "&7 was cancelled: " + reason);
 		if (!isIterating) NavigationManager.removeActivePathway(p);
 	}
 	

@@ -4,35 +4,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neoquests.NeoQuests;
 
-public class CmdQuestAdminRemoveTag implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(new CommandArgument("player"),
-			new CommandArgument("tag"));
-
-	@Override
-	public String getDescription() {
-		return "Removes a tag from a player's current quest account";
-	}
-
-	@Override
-	public String getKey() {
-		return "removetag";
-	}
-
-	@Override
-	public String getPermission() {
-		return "neoquests.admin";
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.BOTH;
+public class CmdQuestAdminRemoveTag extends Subcommand {
+	public CmdQuestAdminRemoveTag(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("player"), new Arg("tag"));
 	}
 
 	@Override
@@ -40,14 +21,8 @@ public class CmdQuestAdminRemoveTag implements Subcommand {
 		Player p = Bukkit.getPlayer(args[0]);
 		
 		if (p == null) {
-			BukkitUtil.msg(s, "&cCould not remove quest tag, player not online: " + args[0]);
+			Util.msg(s, "&cCould not remove quest tag, player not online: " + args[0]);
 		}
 		NeoQuests.getPlayerTags(p).reset(args[1], p.getUniqueId());
 	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
-	}
-
 }

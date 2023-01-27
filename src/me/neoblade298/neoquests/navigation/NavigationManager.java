@@ -20,7 +20,7 @@ import me.neoblade298.neocore.bukkit.NeoCore;
 import me.neoblade298.neocore.shared.exceptions.NeoIOException;
 import me.neoblade298.neocore.bukkit.Manager;
 import me.neoblade298.neocore.bukkit.io.FileLoader;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neocore.shared.io.LineConfig;
 import me.neoblade298.neocore.shared.io.LineConfigManager;
 
@@ -140,12 +140,12 @@ public class NavigationManager implements Manager {
 	public static boolean startNavigation(Player p, String start, String end) {
 		if (!endpoints.containsKey(start.toUpperCase())) {
 			Bukkit.getLogger().warning("[NeoQuests] Could not start pathway from " + start + " for player " + p.getName() + ", start point doesn't exist");
-			BukkitUtil.msg(p, "&cThat start point doesn't exist!");
+			Util.msg(p, "&cThat start point doesn't exist!");
 			return false;
 		}
 		if (!endpoints.containsKey(end.toUpperCase())) {
 			Bukkit.getLogger().warning("[NeoQuests] Could not start pathway to " + end + " for player " + p.getName() + ", end point doesn't exist");
-			BukkitUtil.msg(p, "&cThat end point doesn't exist!");
+			Util.msg(p, "&cThat end point doesn't exist!");
 			return false;
 		}
 		EndPoint startPoint = endpoints.get(start.toUpperCase());
@@ -153,14 +153,14 @@ public class NavigationManager implements Manager {
 		if (!endPoint.getStartPoints().containsKey(startPoint)) {
 			Bukkit.getLogger().warning("[NeoQuests] Could not start pathway from " + start + " to " + end + " for player " + p.getName() +
 					", " + start + " doesn't connect to " + end + "!");
-			BukkitUtil.msg(p, "&cThat end point doesn't connect to that start point!");
+			Util.msg(p, "&cThat end point doesn't connect to that start point!");
 			return false;
 		}
 
 		if (activePathways.containsKey(p)) {
 			activePathways.get(p).cancel("started a new pathway.", false);
 		}
-		BukkitUtil.msg(p, "&7Started navigation from " + startPoint.getDisplay() + " &7to &6" + endPoint.getDisplay());
+		Util.msg(p, "&7Started navigation from " + startPoint.getDisplay() + " &7to &6" + endPoint.getDisplay());
 		PathwayInstance pi = new PathwayInstance(p, startPoint, endPoint);
 		activePathways.put(p, pi);
 		return true;
@@ -171,7 +171,7 @@ public class NavigationManager implements Manager {
 			activePathways.get(p).cancel("cancelled by player", false);
 			return;
 		}
-		BukkitUtil.msg(p, "&cYou're not currently navigating anywhere!");
+		Util.msg(p, "&cYou're not currently navigating anywhere!");
 	}
 	
 	public static void startPathwayEditor(Player p) throws NeoIOException {
@@ -180,39 +180,39 @@ public class NavigationManager implements Manager {
 			return;
 		}
 
-		BukkitUtil.msg(p, "Successfully started pathway editor");
-		BukkitUtil.msg(p, "&oMake sure you're holding a stick!");
-		BukkitUtil.msg(p, "&cLeft Click&7: Place Point, &cShift-Left Click&7: Delete Point");
-		BukkitUtil.msg(p, "&cRight Click&7: Select/Connect Points, &cShift-Right Click&7: Undo Last Connection");
-		BukkitUtil.msg(p, "&cThrow Stick&7: Create endpoint");
+		Util.msg(p, "Successfully started pathway editor");
+		Util.msg(p, "&oMake sure you're holding a stick!");
+		Util.msg(p, "&cLeft Click&7: Place Point, &cShift-Left Click&7: Delete Point");
+		Util.msg(p, "&cRight Click&7: Select/Connect Points, &cShift-Right Click&7: Undo Last Connection");
+		Util.msg(p, "&cThrow Stick&7: Create endpoint");
 		pathwayEditors.put(p, new PathwayEditor(p));
 	}
 	
 	public static void addExistingPathway(Player p, String startStr, String endStr) {
 		if (!pathwayEditors.containsKey(p)) {
-			BukkitUtil.msg(p, "§cYou aren't in the pathway editor!");
+			Util.msg(p, "§cYou aren't in the pathway editor!");
 			return;
 		}
 		EndPoint start = getEndpoint(startStr);
 		EndPoint end = getEndpoint(endStr);
 		if (start == null) {
-			BukkitUtil.msg(p, "§cThe endpoint " + startStr + " doesn't exist!");
+			Util.msg(p, "§cThe endpoint " + startStr + " doesn't exist!");
 			return;
 		}
 		if (end == null) {
-			BukkitUtil.msg(p, "§cThe endpoint " + endStr + " doesn't exist!");
+			Util.msg(p, "§cThe endpoint " + endStr + " doesn't exist!");
 			return;
 		}
-		BukkitUtil.msg(p, "&7Successfully added existing pathway!");
+		Util.msg(p, "&7Successfully added existing pathway!");
 		pathwayEditors.get(p).addExistingPathway(p, start, end);
 	}
 	
 	public static void exitPathwayEditor(Player p) {
 		if (pathwayEditors.remove(p) != null) {
-			BukkitUtil.msg(p, "Successfully exited pathway editor");
+			Util.msg(p, "Successfully exited pathway editor");
 		}
 		else {
-			BukkitUtil.msg(p, "&cYou aren't in a pathway editor!");
+			Util.msg(p, "&cYou aren't in a pathway editor!");
 		}
 	}
 	
@@ -383,7 +383,7 @@ public class NavigationManager implements Manager {
 		}
 		for (Point point : toRemove) {
 			deletePoint(point);
-			BukkitUtil.msg(s, "&7Deleted point at " + point);
+			Util.msg(s, "&7Deleted point at " + point);
 		}
 	}
 	

@@ -1,44 +1,23 @@
 package me.neoblade298.neoquests.commands;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neoquests.quests.CompletedQuest;
 import me.neoblade298.neoquests.quests.Quest;
 import me.neoblade298.neoquests.quests.Quester;
 import me.neoblade298.neoquests.quests.Questline;
 import me.neoblade298.neoquests.quests.QuestsManager;
 
-public class CmdQuestAdminCompleteQL implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(Arrays.asList(new CommandArgument("key"),
-			new CommandArgument("player")));
-
-	@Override
-	public String getDescription() {
-		return "Places a successful questline in the player's quest log";
-	}
-
-	@Override
-	public String getKey() {
-		return "completeql";
-	}
-
-	@Override
-	public String getPermission() {
-		return null;
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.BOTH;
+public class CmdQuestAdminCompleteQL extends Subcommand {
+	public CmdQuestAdminCompleteQL(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("key"), new Arg("player"));
 	}
 
 	@Override
@@ -51,11 +30,6 @@ public class CmdQuestAdminCompleteQL implements Subcommand {
 		for (Quest q : ql.getQuests()) {
 			quester.addCompletedQuest(new CompletedQuest(q, -1, true));
 		}
-		BukkitUtil.msg(s, "&7Successfully added questline &6" + ql.getDisplay() + " &7to player &e" + p.getName());
-	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
+		Util.msg(s, "&7Successfully added questline &6" + ql.getDisplay() + " &7to player &e" + p.getName());
 	}
 }

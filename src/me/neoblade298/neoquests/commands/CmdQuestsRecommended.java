@@ -1,8 +1,6 @@
 package me.neoblade298.neoquests.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,11 +8,10 @@ import org.bukkit.entity.Player;
 import com.sucy.skill.SkillAPI;
 
 import io.lumine.mythic.bukkit.utils.lib.lang3.StringUtils;
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neocore.shared.util.PaginatedList;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.conditions.ConditionManager;
@@ -24,38 +21,15 @@ import me.neoblade298.neoquests.quests.QuestsManager;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 
-public class CmdQuestsRecommended implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(Arrays.asList(new CommandArgument("player", false),
-			new CommandArgument("page", false)));
-
-	@Override
-	public String getDescription() {
-		return "Lists recommended quests for you to take";
-	}
-
-	@Override
-	public String getKey() {
-		return "recommended";
-	}
-
-	@Override
-	public String getPermission() {
-		return null;
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.PLAYER_ONLY;
+public class CmdQuestsRecommended extends Subcommand {
+	public CmdQuestsRecommended(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("player", false), new Arg("page", false));
 	}
 
 	@Override
 	public void run(CommandSender s, String[] args) {
 		run(s, args, false);
-	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
 	}
 
 	public static void run(CommandSender s, String[] args, boolean challenges) {
@@ -73,7 +47,7 @@ public class CmdQuestsRecommended implements Subcommand {
 				page = Integer.parseInt(args[offset]) - 1;
 			}
 			else {
-				BukkitUtil.msg(s, "&cInvalid argument, must be a page number!");
+				Util.msg(s, "&cInvalid argument, must be a page number!");
 				return;
 			}
 		}
@@ -97,21 +71,21 @@ public class CmdQuestsRecommended implements Subcommand {
 		}
 		
 		if (page < 0 || page > pages.pages() - 1) {
-			BukkitUtil.msg(s, "&cPage out of bounds!");
+			Util.msg(s, "&cPage out of bounds!");
 			return;
 		}
 		
 		if (pages.size() == 0) {
 			if (challenges) {
-				BukkitUtil.msg(s, "&7No challenges at this level! Try &c/quests list&7, this lists ANY quest you can take that you haven't finished!");
+				Util.msg(s, "&7No challenges at this level! Try &c/quests list&7, this lists ANY quest you can take that you haven't finished!");
 			}
 			else {
-				BukkitUtil.msg(s, "&7No recommendations at this level! Try &c/quests challenges&7!");
+				Util.msg(s, "&7No recommendations at this level! Try &c/quests challenges&7!");
 			}
 			return;
 		}
 		
-		BukkitUtil.msg(s, "&7Recommended quests for you:");
+		Util.msg(s, "&7Recommended quests for you:");
 		for (QuestRecommendation rec : pages.get(page)) {
 			ComponentBuilder text = new ComponentBuilder("§7- §6" + rec.getQuest().getDisplay());
 			if (rec.getEndpoint() == null) {
@@ -125,6 +99,6 @@ public class CmdQuestsRecommended implements Subcommand {
 				s.spigot().sendMessage(text.append(nav.create()).create());
 			}
 		}
-		pages.displayFooter(s, page, "/quests recommended " + (page + 2), "/quests recommended " + page);
+		s.spigot().sendMessage(pages.getFooter(page, "/quests recommended " + (page + 2), "/quests recommended " + page));
 	}
 }

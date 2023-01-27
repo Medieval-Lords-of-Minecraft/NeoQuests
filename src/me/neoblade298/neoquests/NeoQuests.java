@@ -18,10 +18,11 @@ import com.sk89q.worldguard.session.SessionManager;
 import com.sucy.skill.SkillAPI;
 
 import me.neoblade298.neocore.bukkit.NeoCore;
-import me.neoblade298.neocore.bukkit.commands.CommandManager;
+import me.neoblade298.neocore.bukkit.commands.SubcommandManager;
 import me.neoblade298.neocore.bukkit.InstanceType;
 import me.neoblade298.neocore.bukkit.Manager;
 import me.neoblade298.neocore.bukkit.player.PlayerTags;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
 import me.neoblade298.neoquests.actions.ActionManager;
 import me.neoblade298.neoquests.commands.*;
 import me.neoblade298.neoquests.conditions.ConditionManager;
@@ -44,7 +45,7 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 	private static NeoQuests inst;
 	private static HashSet<Player> debuggers = new HashSet<Player>();
 	private static ArrayList<Manager> managers = new ArrayList<Manager>();
-	private static HashMap<String, CommandManager> commands = new HashMap<String, CommandManager>();
+	private static HashMap<String, SubcommandManager> commands = new HashMap<String, SubcommandManager>();
 	private static PlayerTags[] accountTags = new PlayerTags[12];
 	private static PlayerTags globalTags;
 	public static StringFlag REQ_TAG_FLAG;
@@ -77,7 +78,6 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 		getServer().getPluginManager().registerEvents(new NavigationListener(), this);
 
 		initCommands();
-		
 
 		// Managers
 		try {
@@ -92,98 +92,93 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 		} catch (Exception e) {
 			showWarning("Failed to enable managers on startup", e);
 		}
-		
-		
+
 		// WorldGuard
-	    SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
-	    sessionManager.registerHandler(RequiredTagFlagHandler.FACTORY, null);
+		SessionManager sessionManager = WorldGuard.getInstance().getPlatform().getSessionManager();
+		sessionManager.registerHandler(RequiredTagFlagHandler.FACTORY, null);
 	}
-	
+
 	@Override
 	public void onLoad() {
 		// WorldGuard
 		FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-	    try {
-	        // create a flag with the name "my-custom-flag"
-	        StringFlag flag = new StringFlag("required-tag");
-	        registry.register(flag);
-	        REQ_TAG_FLAG = flag; // only set our field if there was no error
-	    } catch (FlagConflictException e) {
-	        // some other plugin registered a flag by the same name already.
-	        // you can use the existing flag, but this may cause conflicts - be sure to check type
-	    	e.printStackTrace();
-	    	
-	    } catch (IllegalStateException e) {
-	    	e.printStackTrace();
-	    }
+		try {
+			// create a flag with the name "my-custom-flag"
+			StringFlag flag = new StringFlag("required-tag");
+			registry.register(flag);
+			REQ_TAG_FLAG = flag; // only set our field if there was no error
+		} catch (FlagConflictException e) {
+			// some other plugin registered a flag by the same name already.
+			// you can use the existing flag, but this may cause conflicts - be sure to
+			// check type
+			e.printStackTrace();
+
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initCommands() {
 		String cmd = "quest";
-		CommandManager quest = new CommandManager(cmd, this);
-		quest.register(new CmdQuestBase());
+		SubcommandManager quest = new SubcommandManager(cmd, null, ChatColor.RED, this);
+		quest.register(new CmdQuestBase("", "Shows current quests", null, SubcommandRunner.PLAYER_ONLY));
 		commands.put(cmd, quest);
 
 		cmd = "quests";
-		CommandManager quests = new CommandManager(cmd, this);
+		SubcommandManager quests = new SubcommandManager(cmd, null, ChatColor.RED, this);
 		quests.registerCommandList("");
-		quests.register(new CmdQuestsQuit(),
-				new CmdQuestsTake(),
-				new CmdQuestsLog(),
-				new CmdQuestsView(),
-				new CmdQuestsGuide(),
-				new CmdQuestsRecommended(),
-				new CmdQuestsChallenges(),
-				new CmdQuestsList());
-		this.getCommand(cmd).setExecutor(quests);
+		quests.register(new CmdQuestsQuit("quit", "Quits the specified quest", null, SubcommandRunner.PLAYER_ONLY));
+		quests.register(new CmdQuestsTake("take", "Quits", null, SubcommandRunner.PLAYER_ONLY));
+		quests.register(new CmdQuestsLog("log", "Lists all completed quests", null, SubcommandRunner.PLAYER_ONLY));
+		quests.register(new CmdQuestsView("view", "Views a player's quests", null, SubcommandRunner.BOTH));
+		quests.register(new CmdQuestsGuide("guide", "Useful guide for finding the next quest to take", null, SubcommandRunner.BOTH));
+		quests.register(new CmdQuestsRecommended("recommended", "Lists recommended quests for the level", null, SubcommandRunner.PLAYER_ONLY));
+		quests.register(new CmdQuestsChallenges("challenges", "Lists challenging quests for the level", null, SubcommandRunner.PLAYER_ONLY));
+		quests.register(new CmdQuestsList("list", "Lists every uncompleted quest", null, SubcommandRunner.PLAYER_ONLY));
 		commands.put(cmd, quests);
 
 		cmd = "questadmin";
-		CommandManager questadmin = new CommandManager(cmd, "neoquests.admin", ChatColor.DARK_RED, this);
+		SubcommandManager questadmin = new SubcommandManager(cmd, "neoquests.admin", ChatColor.DARK_RED, this);
 		questadmin.registerCommandList("");
-		questadmin.register(new CmdQuestAdminReload(),
-				new CmdQuestAdminStart(),
-				new CmdQuestAdminCanStart(),
-				new CmdQuestAdminCanStartConv(),
-				new CmdQuestAdminCompleteQL(),
-				new CmdQuestAdminAddTag(),
-				new CmdQuestAdminRemoveTag(),
-				new CmdQuestAdminStart(),
-				new CmdQuestAdminReset(),
-				new CmdQuestAdminComplete(),
-				new CmdQuestAdminIsComplete(),
-				new CmdQuestAdminDebug(),
-				new CmdQuestAdminSetStage());
-		this.getCommand(cmd).setExecutor(questadmin);
+		questadmin.register(new CmdQuestAdminReload("reload", "Safely reloads quests", null, SubcommandRunner.BOTH));
+		questadmin.register(new CmdQuestAdminStart("start", "Instantly starts a quest ignoring conditions", null, SubcommandRunner.BOTH));
+		questadmin.register(new CmdQuestAdminCanStart("Checks if a player can start a quest", "Quits", null, SubcommandRunner.BOTH));
+		questadmin.register(new CmdQuestAdminCanStartConv("canstartconv", "Checks if a player can start a conversation", null, SubcommandRunner.BOTH));
+		questadmin.register(new CmdQuestAdminCompleteQL("completeql", "Places a successful questline in the player's quest log", null, SubcommandRunner.BOTH));
+		questadmin.register(new CmdQuestAdminAddTag("addtag", "Adds a tag to the player's current quest account", null, SubcommandRunner.BOTH));
+		questadmin.register(new CmdQuestAdminRemoveTag("removetag", "Removes a tag from the player's current quest account", null, SubcommandRunner.BOTH));
+		questadmin.register(new CmdQuestAdminReset("reset", "Resets a player's completed quests", null, SubcommandRunner.BOTH));
+		questadmin.register(new CmdQuestAdminComplete("complete", "Completes a quest for a player", null, SubcommandRunner.BOTH));
+		questadmin.register(new CmdQuestAdminIsComplete("iscomplete", "Checks if a quest is complete for a player", null, SubcommandRunner.BOTH));
+		questadmin.register(new CmdQuestAdminDebug("debug", "Checks a player's listened objectives", null, SubcommandRunner.BOTH));
+		questadmin.register(new CmdQuestAdminSetStage("setstage", "Sets the stage for an active quest", null, SubcommandRunner.BOTH));
 		commands.put(cmd, questadmin);
 
 		cmd = "navigation";
-		CommandManager navigation = new CommandManager(cmd, this);
+		SubcommandManager navigation = new SubcommandManager(cmd, null, ChatColor.RED, this);
 		navigation.registerCommandList("");
-		navigation.register(new CmdNavigationTo(),
-				new CmdNavigationFrom(),
-				new CmdNavigationStart(),
-				new CmdNavigationStop());
-		this.getCommand(cmd).setExecutor(navigation);
+		navigation.register(new CmdNavigationTo("to", "Starts navigation to an endpoint", null, SubcommandRunner.PLAYER_ONLY));
+		navigation.register(new CmdNavigationFrom("from", "Starts navigation from an endpoint", null, SubcommandRunner.PLAYER_ONLY));
+		navigation.register(new CmdNavigationStart("start", "Starts navigation between two endpoints", null, SubcommandRunner.PLAYER_ONLY));
+		navigation.register(new CmdNavigationStop("stop", "Ends current navigation", null, SubcommandRunner.PLAYER_ONLY));
 		commands.put(cmd, navigation);
 
 		cmd = "adminnavigation";
-		CommandManager anavigation = new CommandManager(cmd, ChatColor.DARK_RED, this);
+		SubcommandManager anavigation = new SubcommandManager(cmd, "neoquests.admin", ChatColor.DARK_RED, this);
 		anavigation.registerCommandList("");
-		anavigation.register(new CmdANavigationSave(),
-				new CmdANavigationStart(),
-				new CmdANavigationEditor(),
-				new CmdANavigationExit(),
-				new CmdANavigationTo(),
-				new CmdANavigationFrom(),
-				new CmdANavigationAddPathway(),
-				new CmdANavigationClear());
-		this.getCommand(cmd).setExecutor(anavigation);
+		anavigation.register(new CmdANavigationSave("save", "Saves your pathway editor", null, SubcommandRunner.PLAYER_ONLY));
+		anavigation.register(new CmdANavigationStart("start", "Starts navigation for a player", null, SubcommandRunner.PLAYER_ONLY));
+		anavigation.register(new CmdANavigationEditor("editor", "Starts navigation editor", null, SubcommandRunner.PLAYER_ONLY));
+		anavigation.register(new CmdANavigationExit("exit", "Exits navigation editor", null, SubcommandRunner.PLAYER_ONLY));
+		anavigation.register(new CmdANavigationTo("to", "Starts navigation to an endpoint", null, SubcommandRunner.PLAYER_ONLY));
+		anavigation.register(new CmdANavigationFrom("from", "Starts navigation from an endpoint", null, SubcommandRunner.PLAYER_ONLY));
+		anavigation.register(new CmdANavigationAddPathway("addpathway", "Adds an existing pathway to your path", null, SubcommandRunner.PLAYER_ONLY));
+		anavigation.register(new CmdANavigationClear("clear", "Removes all currently unused points", null, SubcommandRunner.PLAYER_ONLY));
 		commands.put(cmd, anavigation);
-		
+
 		cmd = "conversation";
-		CommandManager cm = new CommandManager(cmd, this);
-		cm.register(new CmdConvAnswer());
+		SubcommandManager cm = new SubcommandManager(cmd, null, ChatColor.RED, this);
+		cm.register(new CmdConvAnswer("answer", "Answers an existing conversation", null, SubcommandRunner.PLAYER_ONLY));
 	}
 
 	public void onDisable() {
@@ -227,23 +222,23 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 		debuggers.add(p);
 	}
 
-	public static HashMap<String, CommandManager> getCommands() {
+	public static HashMap<String, SubcommandManager> getCommands() {
 		return commands;
 	}
-	
+
 	public static PlayerTags getPlayerTags(Player p) {
 		int account = isTowny ? 1 : SkillAPI.getPlayerAccountData(p).getActiveId();
 		return getPlayerTags(account);
 	}
-	
+
 	public static PlayerTags getPlayerTags(int account) {
 		return accountTags[account - 1];
 	}
-	
+
 	public static PlayerTags[] getAllPlayerTags() {
 		return accountTags;
 	}
-	
+
 	public static PlayerTags getGlobalPlayerTags() {
 		return globalTags;
 	}

@@ -1,46 +1,25 @@
 package me.neoblade298.neoquests.commands;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import io.lumine.mythic.bukkit.utils.lib.lang3.StringUtils;
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
-import me.neoblade298.neocore.bukkit.util.BukkitUtil;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
+import me.neoblade298.neocore.bukkit.util.Util;
 import me.neoblade298.neocore.shared.util.PaginatedList;
 import me.neoblade298.neoquests.NeoQuests;
 import me.neoblade298.neoquests.conditions.ConditionManager;
 import me.neoblade298.neoquests.quests.Quest;
 import me.neoblade298.neoquests.quests.QuestsManager;
 
-public class CmdQuestsList implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(Arrays.asList(new CommandArgument("player", false),
-			new CommandArgument("page", false)));
-
-	@Override
-	public String getDescription() {
-		return "Lists all quests available to you";
-	}
-
-	@Override
-	public String getKey() {
-		return "list";
-	}
-
-	@Override
-	public String getPermission() {
-		return null;
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.PLAYER_ONLY;
+public class CmdQuestsList extends Subcommand {
+	public CmdQuestsList(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("player", false), new Arg("page", false));
 	}
 
 	@Override
@@ -55,7 +34,7 @@ public class CmdQuestsList implements Subcommand {
 				}
 				
 				if (args.length > offset && !StringUtils.isNumeric(args[offset])) {
-					BukkitUtil.msg(s, "&cInvalid argument! Must be a page number.");
+					Util.msg(s, "&cInvalid argument! Must be a page number.");
 					return;
 				}
 				
@@ -68,25 +47,20 @@ public class CmdQuestsList implements Subcommand {
 				
 				int page = args.length > offset ? Integer.parseInt(args[offset]) - 1 : 0;
 				if (page < 0 || page >= list.pages()) {
-					BukkitUtil.msg(s, "&cInvalid page number! Max page is " + list.pages());
+					Util.msg(s, "&cInvalid page number! Max page is " + list.pages());
 					return;
 				}
 				
-				BukkitUtil.msg(s, "&6-[Available Quests]-", false);
+				Util.msg(s, "&6-[Available Quests]-", false);
 				for (Quest q : list.get(page)) {
 					String msg = "&7- ";
 					msg += q.getDisplay();
-					BukkitUtil.msg(s, msg, false);
+					Util.msg(s, msg, false);
 				}
 				String nextCmd = "/quests list " + (page + 2);
 				String prevCmd = "/quests list " + page;
-				list.displayFooter(s, page, nextCmd, prevCmd);
+				s.spigot().sendMessage(list.getFooter(page, nextCmd, prevCmd));
 			}
 		}.runTaskAsynchronously(NeoQuests.inst());
-	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
 	}
 }

@@ -1,39 +1,18 @@
 package me.neoblade298.neoquests.commands;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.neoblade298.neocore.bukkit.commands.CommandArgument;
-import me.neoblade298.neocore.bukkit.commands.CommandArguments;
+import me.neoblade298.neocore.shared.commands.Arg;
 import me.neoblade298.neocore.bukkit.commands.Subcommand;
-import me.neoblade298.neocore.bukkit.commands.SubcommandRunner;
+import me.neoblade298.neocore.shared.commands.SubcommandRunner;
 import me.neoblade298.neoquests.quests.QuestsManager;
 
-public class CmdQuestAdminSetStage implements Subcommand {
-	private static final CommandArguments args = new CommandArguments(Arrays.asList(new CommandArgument("key"),
-			new CommandArgument("player", false), new CommandArgument("stage")));
-
-	@Override
-	public String getDescription() {
-		return "Sets the stage of a quest";
-	}
-
-	@Override
-	public String getKey() {
-		return "setstage";
-	}
-
-	@Override
-	public String getPermission() {
-		return null;
-	}
-
-	@Override
-	public SubcommandRunner getRunner() {
-		return SubcommandRunner.BOTH;
+public class CmdQuestAdminSetStage extends Subcommand {
+	public CmdQuestAdminSetStage(String key, String desc, String perm, SubcommandRunner runner) {
+		super(key, desc, perm, runner);
+		args.add(new Arg("key"), new Arg("player", false), new Arg("stage"));
 	}
 
 	@Override
@@ -49,10 +28,5 @@ public class CmdQuestAdminSetStage implements Subcommand {
 			stage = Integer.parseInt(args[1]);
 		}
 		QuestsManager.setStage(p, args[0], stage);
-	}
-
-	@Override
-	public CommandArguments getArgs() {
-		return args;
 	}
 }
