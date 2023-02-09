@@ -47,7 +47,7 @@ public class CmdQuestAdminReset extends Subcommand {
 		}
 		
 		UUID uuid = p.getUniqueId();
-		try (Connection con = NeoCore.getConnection("QuestsManager");
+		try (Connection con = NeoCore.getConnection("NeoQuests");
 				Statement stmt = con.createStatement();){
 			// No args, reset only the account you're on
 			if (args.length == offset) {
