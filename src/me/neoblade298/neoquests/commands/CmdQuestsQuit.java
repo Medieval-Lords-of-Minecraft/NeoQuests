@@ -14,7 +14,7 @@ import me.neoblade298.neoquests.quests.QuestsManager;
 public class CmdQuestsQuit extends Subcommand {
 	public CmdQuestsQuit(String key, String desc, String perm, SubcommandRunner runner) {
 		super(key, desc, perm, runner);
-		args.add(new Arg("key"));
+		args.add(new Arg("key", false));
 	}
 
 	@Override
