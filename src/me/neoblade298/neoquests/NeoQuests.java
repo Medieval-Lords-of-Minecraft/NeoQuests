@@ -6,9 +6,11 @@ import java.util.HashSet;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.StringFlag;
@@ -17,19 +19,52 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.session.SessionManager;
 import com.sucy.skill.SkillAPI;
 
-import me.neoblade298.neocore.bukkit.NeoCore;
-import me.neoblade298.neocore.bukkit.commands.SubcommandManager;
 import me.neoblade298.neocore.bukkit.InstanceType;
 import me.neoblade298.neocore.bukkit.Manager;
+import me.neoblade298.neocore.bukkit.NeoCore;
+import me.neoblade298.neocore.bukkit.commands.SubcommandManager;
 import me.neoblade298.neocore.bukkit.player.PlayerTags;
 import me.neoblade298.neocore.shared.commands.SubcommandRunner;
 import me.neoblade298.neoquests.actions.ActionManager;
-import me.neoblade298.neoquests.commands.*;
+import me.neoblade298.neoquests.commands.CmdANavigationAddPathway;
+import me.neoblade298.neoquests.commands.CmdANavigationClear;
+import me.neoblade298.neoquests.commands.CmdANavigationEditor;
+import me.neoblade298.neoquests.commands.CmdANavigationExit;
+import me.neoblade298.neoquests.commands.CmdANavigationFrom;
+import me.neoblade298.neoquests.commands.CmdANavigationSave;
+import me.neoblade298.neoquests.commands.CmdANavigationStart;
+import me.neoblade298.neoquests.commands.CmdANavigationTo;
+import me.neoblade298.neoquests.commands.CmdConvAnswer;
+import me.neoblade298.neoquests.commands.CmdNavigationFrom;
+import me.neoblade298.neoquests.commands.CmdNavigationStart;
+import me.neoblade298.neoquests.commands.CmdNavigationStop;
+import me.neoblade298.neoquests.commands.CmdNavigationTo;
+import me.neoblade298.neoquests.commands.CmdQuestAdminAddTag;
+import me.neoblade298.neoquests.commands.CmdQuestAdminCanStart;
+import me.neoblade298.neoquests.commands.CmdQuestAdminCanStartConv;
+import me.neoblade298.neoquests.commands.CmdQuestAdminComplete;
+import me.neoblade298.neoquests.commands.CmdQuestAdminCompleteQL;
+import me.neoblade298.neoquests.commands.CmdQuestAdminDebug;
+import me.neoblade298.neoquests.commands.CmdQuestAdminIsComplete;
+import me.neoblade298.neoquests.commands.CmdQuestAdminReload;
+import me.neoblade298.neoquests.commands.CmdQuestAdminRemoveTag;
+import me.neoblade298.neoquests.commands.CmdQuestAdminReset;
+import me.neoblade298.neoquests.commands.CmdQuestAdminSetStage;
+import me.neoblade298.neoquests.commands.CmdQuestAdminStart;
+import me.neoblade298.neoquests.commands.CmdQuestBase;
+import me.neoblade298.neoquests.commands.CmdQuestsChallenges;
+import me.neoblade298.neoquests.commands.CmdQuestsGuide;
+import me.neoblade298.neoquests.commands.CmdQuestsList;
+import me.neoblade298.neoquests.commands.CmdQuestsLog;
+import me.neoblade298.neoquests.commands.CmdQuestsQuit;
+import me.neoblade298.neoquests.commands.CmdQuestsRecommended;
+import me.neoblade298.neoquests.commands.CmdQuestsTake;
+import me.neoblade298.neoquests.commands.CmdQuestsView;
 import me.neoblade298.neoquests.conditions.ConditionManager;
 import me.neoblade298.neoquests.conversations.ConversationManager;
+import me.neoblade298.neoquests.listeners.ConversationListener;
 import me.neoblade298.neoquests.listeners.GeneralListener;
 import me.neoblade298.neoquests.listeners.NavigationListener;
-import me.neoblade298.neoquests.listeners.ConversationListener;
 import me.neoblade298.neoquests.listeners.ObjectiveListener;
 import me.neoblade298.neoquests.listeners.ObjectiveListenerSkillAPI;
 import me.neoblade298.neoquests.listeners.ObjectiveListenerTowny;
@@ -38,6 +73,7 @@ import me.neoblade298.neoquests.navigation.NavigationManager;
 import me.neoblade298.neoquests.objectives.ObjectiveManager;
 import me.neoblade298.neoquests.quests.QuestsManager;
 import me.neoblade298.neoquests.worldguard.RequiredTagFlagHandler;
+import net.md_5.bungee.api.ChatColor;
 
 public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 	public static Random rand = new Random();
@@ -51,6 +87,7 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 	public static StringFlag REQ_TAG_FLAG;
 	public static boolean isTowny = false;
 
+	@Override
 	public void onEnable() {
 		inst = this;
 		isTowny = NeoCore.getInstanceType() == InstanceType.TOWNY;
@@ -69,10 +106,10 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 		getServer().getPluginManager().registerEvents(new ObjectiveListener(), this);
 		if (NeoCore.getInstanceType() == InstanceType.TOWNY) {
 			getServer().getPluginManager().registerEvents(new ObjectiveListenerTowny(), this);
-		}
-		else {
+		} else {
 			getServer().getPluginManager().registerEvents(new ObjectiveListenerSkillAPI(), this);
 			getServer().getPluginManager().registerEvents(new QuesterListener(), this);
+			quartz();
 		}
 		getServer().getPluginManager().registerEvents(new GeneralListener(), this);
 		getServer().getPluginManager().registerEvents(new NavigationListener(), this);
@@ -181,6 +218,7 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 		cm.register(new CmdConvAnswer("answer", "Answers an existing conversation", null, SubcommandRunner.PLAYER_ONLY));
 	}
 
+	@Override
 	public void onDisable() {
 		for (Manager mngr : managers) {
 			mngr.cleanup();
@@ -241,5 +279,20 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 
 	public static PlayerTags getGlobalPlayerTags() {
 		return globalTags;
+	}
+	
+	private void quartz() {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				try {
+					Location loc = new Location(Bukkit.getWorld("Argyll"), -2058, 11, 2083);
+					if (loc.getBlock().getType() != Material.QUARTZ_BLOCK) {
+						loc.getBlock().setType(Material.QUARTZ_BLOCK);
+					}
+				} catch (Exception e) {
+				}
+			}
+		}.runTaskTimer(this, 0, 200);
 	}
 }
