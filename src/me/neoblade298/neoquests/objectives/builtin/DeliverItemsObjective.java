@@ -1,5 +1,8 @@
 package me.neoblade298.neoquests.objectives.builtin;
 
+import java.util.NoSuchElementException;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -37,7 +40,12 @@ public class DeliverItemsObjective extends Objective {
 		lorestring = cfg.getLine();
 		
 		if (mythicitem != null) {
-			itemDisplay = MythicBukkit.inst().getItemManager().getItem(mythicitem).get().getDisplayName();
+			try {
+				itemDisplay = MythicBukkit.inst().getItemManager().getItem(mythicitem).get().getDisplayName();
+			}
+			catch (NoSuchElementException e) {
+				Bukkit.getLogger().warning("[NeoQuests] Failed to load Deliver Items Objective: " + mythicitem + " does not exist.");
+			}
 		}
 		else {
 			itemDisplay = matString;
