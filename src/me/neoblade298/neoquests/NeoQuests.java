@@ -58,9 +58,9 @@ public class NeoQuests extends JavaPlugin implements org.bukkit.event.Listener {
 
 		// Minimized initialization if session host
 		for (int i = 1; i <= 12; i++) {
-			accountTags[i - 1] = NeoCore.createPlayerTags("questaccount_" + i, this, true);
+			accountTags[i - 1] = NeoCore.createPlayerTags("questaccount" + i, this, true);
 		}
-		globalTags = NeoCore.createPlayerTags("questaccount_global", this, true);
+		globalTags = NeoCore.createPlayerTags("questaccountglobal", this, true);
 		if (NeoCore.getInstanceType() == InstanceType.SESSIONS) {
 			return;
 		}
